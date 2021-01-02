@@ -141,6 +141,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/football.obj");
 	Resources::GetInstance()->AddModel("Models/hockeyGoal2.obj");
 	Resources::GetInstance()->AddModel("Models/wall.obj");
+	Resources::GetInstance()->AddModel("Models/goals.obj");
 	Resources::GetInstance()->AddModel("Models/footballBoot3.obj");
 	Resources::GetInstance()->AddModel("Models/footballBoot4.obj");
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
@@ -180,7 +181,7 @@ void Application::GameInit()
 	m_entities.push_back(d);
 	d->AddComponent(
 		new MeshRenderer(
-			Resources::GetInstance()->GetModel("Models/hockeyGoal2.obj"),
+			Resources::GetInstance()->GetModel("Models/goals.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/Gold.jpg"))
 	);
@@ -255,7 +256,7 @@ void Application::GameInit()
 	m_entities.push_back(e);
 	e->AddComponent(
 		new MeshRenderer(
-			Resources::GetInstance()->GetModel("Models/hockeyGoal2.obj"),
+			Resources::GetInstance()->GetModel("Models/goals.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/Gold.jpg"))
 	);
