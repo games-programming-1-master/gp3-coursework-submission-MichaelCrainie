@@ -14,6 +14,9 @@
 #include "cSound.h"
 #include "cSoundMgr.h"
 #include "SDL2/SDL2-2.0.4/include/SDL.h"
+#include "SDL2/SDL2_ttf-2.0.14/include/SDL_ttf.h"
+#include <SDL_ttf.h>
+
 
 
 
@@ -42,6 +45,7 @@ Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }),
 
 
 
+
 glm::vec3 player1Start = glm::vec3(0.f, 5.f, 60.f);
 glm::vec3 player2Start = glm::vec3(0.f, 5.f, -80.f);
 glm::vec3 ballStart = glm::vec3(0, 0, -20.f);
@@ -55,8 +59,16 @@ Application::Application()
 {
 }
 
+
+
 void Application::Init()
 {
+	SDL_Init(SDL_INIT_VIDEO);
+	if (TTF_Init() < 0)
+	{
+		printf("NOOOOOOOOO");
+	}
+	
 	//performing initialization
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{
@@ -75,7 +87,18 @@ void Application::Init()
 	m_window = SDL_CreateWindow("GP3-LAB-5", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, m_windowWidth, m_windowHeight,
 		SDL_WINDOW_OPENGL);
-	
+	/*m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	TTF_Font *font = TTF_OpenFont("COMICATE.ttf", 20);
+	SDL_Color color = { 144, 77, 255, 255 };
+	SDL_Surface *textSurface = TTF_RenderText_Solid(font, "i work yes", color);
+	SDL_Texture *text = SDL_CreateTextureFromSurface(m_renderTarget, textSurface);
+	SDL_Rect textRect;
+	textRect.x = textRect.y = 0;
+	SDL_QueryTexture(text, NULL, NULL, &textRect.w, &textRect.h);
+	SDL_FreeSurface(textSurface);
+	//textSurface = nullptr;
+	SDL_RenderCopy(m_renderTarget, text, NULL, &textRect);
+	SDL_RenderPresent(m_renderTarget);*/
 
 	SDL_CaptureMouse(SDL_TRUE);
 
@@ -85,7 +108,7 @@ void Application::Init()
 	
 }
 
-/*void Application::drawBitmapText(const char* string, float x, float y, float z)
+void Application::drawBitmapText(const char* string, float x, float y, float z)
 {
 	const char* c;
 	glRasterPos3f(x, y, z);
@@ -96,7 +119,19 @@ void Application::Init()
 	}
 }
 
-void drawText(const char* text, int length, int x, int y)
+void Application::output(int x, int y, float r, float g, float b, const char* string)
+{
+	glColor3f(r, g, b);
+	glRasterPos2f(x, y);
+	int len, i;
+	len = (int)strlen(string);
+	for (i = 0; i < len; i++) {
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
+	}
+}
+
+
+/*void drawText(const char* text, int length, int x, int y)
 {
 	glMatrixMode(GL_PROJECTION);
 	double* matrix = new double(16);
@@ -171,9 +206,11 @@ void Application::OpenGlInit()
 
 void Application::GameInit()
 {
+	
 	// Initialise the sound manager
 	if (theSoundMgr->initMixer())
 	{
+		
 		// Load game sounds
 		soundList = { "theme", "click", "blueGoal", "redGoal" };
 		soundTypes = { soundType::music, soundType::sfx, soundType::sfx, soundType::sfx };
@@ -433,6 +470,7 @@ void Application::GameInit()
 
 void Application::Loop()
 {
+	
 	m_appState = AppState::RUNNING;
 	std::cout << playerX << std::endl;
 	auto prevTicks = std::chrono::high_resolution_clock::now();
@@ -444,6 +482,7 @@ void Application::Loop()
 
 	while (m_appState != AppState::QUITTING)
 	{
+		
 		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "HERE" << std::endl;
@@ -511,6 +550,7 @@ void Application::Loop()
 		//poll SDL events
 		while (SDL_PollEvent(&event))
 		{
+
 			b->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			c->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
@@ -527,6 +567,19 @@ void Application::Loop()
 				case SDLK_a:
 					if (modifyControls == false) 
 					{
+						SDL_Init(SDL_INIT_VIDEO);
+						m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+						TTF_Font* font = TTF_OpenFont("COMICATE.ttf", 20);
+						SDL_Color color = { 144, 77, 255, 255 };
+						SDL_Surface* textSurface = TTF_RenderText_Solid(font, "i work yes", color);
+						SDL_Texture* text = SDL_CreateTextureFromSurface(m_renderTarget, textSurface);
+						SDL_Rect textRect;
+						textRect.x = textRect.y = 0;
+						SDL_QueryTexture(text, NULL, NULL, &textRect.w, &textRect.h);
+						SDL_FreeSurface(textSurface);
+						//textSurface = nullptr;
+						SDL_RenderCopy(m_renderTarget, text, NULL, &textRect);
+						SDL_RenderPresent(m_renderTarget);
 						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(-3.0f, 0.f, 0.f)); 
 						
 					}
@@ -554,6 +607,7 @@ void Application::Loop()
 					if (modifyControls == false) 
 					{ 
 						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, 3.f));
+						//output(50, 50, 1, 1, 1, "Hello Friends");
 					}
 					if (modifyControls == true) 
 					{ 
@@ -787,7 +841,7 @@ void Application::Loop()
 			if (modifyControls == false)
 			{
 				player2->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.5f));
-				//drawBitmapText("testing", 0, 0, 0);
+				
 			}
 			if (modifyControls == true)
 			{
@@ -878,7 +932,7 @@ void Application::Render()
 	/* Clear context */
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	m_mainCamera->Recalculate();
 	for (auto& a : m_entities)
 	{

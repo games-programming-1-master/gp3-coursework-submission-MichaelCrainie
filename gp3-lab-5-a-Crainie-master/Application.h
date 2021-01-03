@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include <string>
-
+#include <glut.h>
 
 
 
@@ -22,6 +22,12 @@ private:
 	static Application* m_application;
 	SDL_Window *m_window = nullptr;
 	SDL_GLContext m_glContext = nullptr;
+	SDL_Renderer* renderer;
+	SDL_Color* textColor;
+	TTF_Font* font;
+	SDL_Surface* message;
+	SDL_Texture *text;
+	SDL_Rect *textRect;
 	int m_windowWidth = 1280;
 	int m_windowHeight = 720;
 	AppState m_appState = AppState::INITILISING;
@@ -58,7 +64,7 @@ public:
 	~Application();
 	static Application* GetInstance();
 	void Run();
-
+	void output(int x, int y, float r, float g, float b, const char* string);
 	inline int GetWindowHeight() { return m_windowHeight; }
 	inline int GetWindowWidth() { return m_windowWidth; }
 	void drawBitmapText(const char* string, float x, float y, float z);
