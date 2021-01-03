@@ -24,20 +24,22 @@
 
 
 
+
+
+//SDL_Surface* surface;
 Application *Application::m_application = nullptr;
 static cSoundMgr* theSoundMgr = cSoundMgr::getInstance();
 Entity* a = new Entity();
 Entity* b = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* c = new Entity(glm::vec3(0.f, 0.f, -20.f), glm::quat({ 0, 0, 0 }), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.f, 0.f, 5.f));
-Entity* d = new Entity(glm::vec3(0.f, -10.f, -100.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.1f, 10.1f, 10.1f), glm::vec3(0.f, 0.f, 5.f));
-Entity* e = new Entity(glm::vec3(0.f, -10.f, 70.f), glm::quat({ 0, 160.3f, 0 }), glm::vec3(10.1f, 10.1f, 10.1f), glm::vec3(0.f, 0.f, 5.f));
+Entity* d = new Entity(glm::vec3(0.f, -10.f, -100.f), glm::quat({ 0, 0, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
+Entity* e = new Entity(glm::vec3(0.f, -10.f, 70.f), glm::quat({ 0, 160.3f, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
 Entity* f = new Entity(glm::vec3(0.f, -10.f, 100.f), glm::quat({ 0, 0, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* g = new Entity(glm::vec3(0.f, -10.f, -140.f), glm::quat({ 0, 0, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* h = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* i = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
-Entity* k = new Entity();
-///
+
 
 
 glm::vec3 player1Start = glm::vec3(0.f, 5.f, 60.f);
@@ -82,6 +84,55 @@ void Application::Init()
 	//gitHub test
 	
 }
+
+/*void Application::drawBitmapText(const char* string, float x, float y, float z)
+{
+	const char* c;
+	glRasterPos3f(x, y, z);
+
+	for (c = string; *c != NULL; c++)
+	{
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, *c);
+	}
+}
+
+void drawText(const char* text, int length, int x, int y)
+{
+	glMatrixMode(GL_PROJECTION);
+	double* matrix = new double(16);
+	glLoadIdentity();
+	glOrtho(0, 800, 0, -600, -5, 5);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glPushMatrix();
+	glLoadIdentity();
+	glRasterPos2i(x, y);
+	for (int i = 0; i < length; i++)
+	{
+		//glutBitmapCharacter(GLUT_BITMAP_9_BY_15, int(text[i]));
+	}
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixd(matrix);
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void DrawScreen(SDL_Surface* screen, int h)
+{
+	glClear(GL_COLOR_BUFFER_BIT || GL_DEPTH_BUFFER_BIT);
+
+	gluLookAt(0, 0, -10, 0, 0, 3, 0, 1, 0);
+	glBegin(GL_LINES);
+	glVertex3f(0, 0, 0);
+	glVertex3f(1, 0, 0);
+	glEnd();
+	std::string text;
+	text = "please work";
+	drawText(text.data(), text.size(), 0, 0);
+
+	//
+
+}*/
 
 void Application::OpenGlInit()
 {
@@ -188,7 +239,7 @@ void Application::GameInit()
 	MeshRenderer* p = d->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	d->AddComponent<RigidBody>();
-	d->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 5.f, 0.05f)));
+	d->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, 0.05f)));
 	d->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	d->GetComponent<RigidBody>()->Get()->setFriction(1);
 	d->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -263,7 +314,7 @@ void Application::GameInit()
 	MeshRenderer* q = e->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	e->AddComponent<RigidBody>();
-	e->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 5.f, -0.05f)));
+	e->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, -0.05f)));
 	e->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	e->GetComponent<RigidBody>()->Get()->setFriction(1);
 	e->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -322,7 +373,7 @@ void Application::GameInit()
 	c->AddComponent<RigidBody>();
 	//c->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 1.f, 10.f)));
 	c->GetComponent<RigidBody>()->Init(new SphereShape(0.6));
-	c->GetComponent<RigidBody>()->Get()->setFriction(0.75);
+	c->GetComponent<RigidBody>()->Get()->setFriction(0.1);
 	c->GetComponent<RigidBody>()->Get()->setRollingFriction(0.1);
 	c->GetComponent<RigidBody>()->Get()->setRestitution(1);
 	c->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0.f, 0, 0.f));
@@ -460,7 +511,9 @@ void Application::Loop()
 		//poll SDL events
 		while (SDL_PollEvent(&event))
 		{
-
+			b->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
+			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
+			c->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
 			switch (event.type)
 			{
 			case SDL_QUIT:
@@ -593,8 +646,35 @@ void Application::Loop()
 				SDL_SetRelativeMouseMode(SDL_TRUE);
 				if (SDL_GetRelativeMouseMode() == true)
 				{
-					//b->GetTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, b->GetTransform()->GetUp());
-					//b->GetTransform()->RotateEulerAxis((m_worldDeltaTime*1) * event.motion.yrel, b->GetTransform()->GetRight());
+					b->GetComponent<CameraComp>()->yaw += 7 * event.motion.xrel * m_worldDeltaTime;
+					b->GetComponent<CameraComp>()->pitch += 7 * event.motion.yrel * m_worldDeltaTime;
+					if (b->GetComponent<CameraComp>()->pitch > AI_MATH_TWO_PI_F)
+					{
+						b->GetComponent<CameraComp>()->pitch = AI_MATH_TWO_PI_F - 0.1f;
+						//printf("working1");
+					}
+
+					if (b->GetComponent<CameraComp>()->pitch < AI_MATH_TWO_PI_F)
+					{
+						b->GetComponent<CameraComp>()->pitch = -AI_MATH_TWO_PI_F + 0.1f;
+						//printf("working2");
+					}
+
+					float forX = -sin(b->GetComponent<CameraComp>()->yaw) * cos(b->GetComponent<CameraComp>()->pitch);
+					float forY = -sin(b->GetComponent<CameraComp>()->pitch);
+					float forZ = -cos(b->GetComponent<CameraComp>()->yaw) * cos(b->GetComponent<CameraComp>()->pitch);
+					b->GetTransform()->setForward(glm::vec3(forX, forY, forZ));
+
+					float rX = -cos(b->GetComponent<CameraComp>()->yaw);
+					float rY = 0.0f;
+					float rZ = sin(b->GetComponent<CameraComp>()->yaw);
+					b->GetTransform()->setRight(glm::vec3(rX, rY, rZ));
+					
+					b->GetTransform()->setUp(glm::cross(b->GetTransform()->GetForward(), b->GetTransform()->GetRight()));
+					
+					b->GetTransform()->setForward(glm::normalize(b->GetTransform()->GetForward()));
+					b->GetTransform()->setRight(glm::normalize(b->GetTransform()->GetRight()));
+					b->GetTransform()->setUp(glm::normalize(b->GetTransform()->GetUp()));
 				}
 				break;
 			}
@@ -634,6 +714,7 @@ void Application::Loop()
 			if (modifyControls == true)
 			{
 				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.f));
+				
 
 			}
 			b->GetComponent<RigidBody>()->UpdateRigidBody();
@@ -706,6 +787,7 @@ void Application::Loop()
 			if (modifyControls == false)
 			{
 				player2->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.5f));
+				//drawBitmapText("testing", 0, 0, 0);
 			}
 			if (modifyControls == true)
 			{

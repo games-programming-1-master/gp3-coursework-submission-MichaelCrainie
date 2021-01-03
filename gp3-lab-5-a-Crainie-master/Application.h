@@ -2,6 +2,9 @@
 #include "Entity.h"
 #include <string>
 
+
+
+
 class Camera;
 
 #define WINDOW_W Application::GetInstance()->GetWindowWidth()
@@ -58,7 +61,7 @@ public:
 
 	inline int GetWindowHeight() { return m_windowHeight; }
 	inline int GetWindowWidth() { return m_windowWidth; }
-
+	void drawBitmapText(const char* string, float x, float y, float z);
 	inline Camera* GetCamera() { return m_mainCamera; }
 	//inline CameraType* GetCameraType() { return cameraView; }
 	void SetCamera(Camera* camera);

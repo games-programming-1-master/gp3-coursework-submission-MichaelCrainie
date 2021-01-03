@@ -41,6 +41,9 @@ public:
 	inline void addScale(glm::vec3 deltaScale) { m_isDirty = true; m_scale += deltaScale; }
 	inline void SetTransXYZ(glm::vec3 transXYZ) { m_isDirty = true; m_trans = transXYZ; }
 	inline glm::vec3 GetTransXYZ() { m_isDirty = true; return m_trans; }
+	inline void setForward(glm::vec3 _for) { m_forward = _for; }
+	inline void setRight(glm::vec3 _right) { m_right = _right;  }
+	inline void setUp(glm::vec3 _up) { m_up = _up; }
 
 	void RotateEulerAxis(float angle, glm::vec3 axis);
 };
