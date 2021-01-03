@@ -685,39 +685,11 @@ void Application::Loop()
 			//record when the user releases a key
 			case SDL_MOUSEMOTION:
 				INPUT->MoveMouse(glm::ivec2(event.motion.xrel, event.motion.yrel));
-				SDL_SetRelativeMouseMode(SDL_TRUE);
-				if (SDL_GetRelativeMouseMode() == true)
-				{
-					b->GetComponent<CameraComp>()->yaw += 7 * event.motion.xrel * m_worldDeltaTime;
-					b->GetComponent<CameraComp>()->pitch += 7 * event.motion.yrel * m_worldDeltaTime;
-					if (b->GetComponent<CameraComp>()->pitch > AI_MATH_TWO_PI_F)
-					{
-						b->GetComponent<CameraComp>()->pitch = AI_MATH_TWO_PI_F - 0.1f;
-						//printf("working1");
-					}
-
-					if (b->GetComponent<CameraComp>()->pitch < AI_MATH_TWO_PI_F)
-					{
-						b->GetComponent<CameraComp>()->pitch = -AI_MATH_TWO_PI_F + 0.1f;
-						//printf("working2");
-					}
-
-					float forX = -sin(b->GetComponent<CameraComp>()->yaw) * cos(b->GetComponent<CameraComp>()->pitch);
-					float forY = -sin(b->GetComponent<CameraComp>()->pitch);
-					float forZ = -cos(b->GetComponent<CameraComp>()->yaw) * cos(b->GetComponent<CameraComp>()->pitch);
-					b->GetTransform()->setForward(glm::vec3(forX, forY, forZ));
-
-					float rX = -cos(b->GetComponent<CameraComp>()->yaw);
-					float rY = 0.0f;
-					float rZ = sin(b->GetComponent<CameraComp>()->yaw);
-					b->GetTransform()->setRight(glm::vec3(rX, rY, rZ));
-					
-					b->GetTransform()->setUp(glm::cross(b->GetTransform()->GetForward(), b->GetTransform()->GetRight()));
-					
-					b->GetTransform()->setForward(glm::normalize(b->GetTransform()->GetForward()));
-					b->GetTransform()->setRight(glm::normalize(b->GetTransform()->GetRight()));
-					b->GetTransform()->setUp(glm::normalize(b->GetTransform()->GetUp()));
-				}
+				//SDL_SetRelativeMouseMode(SDL_TRUE);
+				//if (SDL_GetRelativeMouseMode() == true)
+				//{
+					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
+				//}
 				break;
 			}
 		}
