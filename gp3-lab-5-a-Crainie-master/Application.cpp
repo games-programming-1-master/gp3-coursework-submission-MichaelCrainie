@@ -87,7 +87,7 @@ void Application::Init()
 	m_window = SDL_CreateWindow("GP3-LAB-5", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, m_windowWidth, m_windowHeight,
 		SDL_WINDOW_OPENGL);
-	/*m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	TTF_Font *font = TTF_OpenFont("COMICATE.ttf", 20);
 	SDL_Color color = { 144, 77, 255, 255 };
 	SDL_Surface *textSurface = TTF_RenderText_Solid(font, "i work yes", color);
@@ -96,9 +96,9 @@ void Application::Init()
 	textRect.x = textRect.y = 0;
 	SDL_QueryTexture(text, NULL, NULL, &textRect.w, &textRect.h);
 	SDL_FreeSurface(textSurface);
-	//textSurface = nullptr;
+	textSurface = nullptr;
 	SDL_RenderCopy(m_renderTarget, text, NULL, &textRect);
-	SDL_RenderPresent(m_renderTarget);*/
+	SDL_RenderPresent(m_renderTarget);
 
 	SDL_CaptureMouse(SDL_TRUE);
 
@@ -567,19 +567,7 @@ void Application::Loop()
 				case SDLK_a:
 					if (modifyControls == false) 
 					{
-						SDL_Init(SDL_INIT_VIDEO);
-						m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-						TTF_Font* font = TTF_OpenFont("COMICATE.ttf", 20);
-						SDL_Color color = { 144, 77, 255, 255 };
-						SDL_Surface* textSurface = TTF_RenderText_Solid(font, "i work yes", color);
-						SDL_Texture* text = SDL_CreateTextureFromSurface(m_renderTarget, textSurface);
-						SDL_Rect textRect;
-						textRect.x = textRect.y = 0;
-						SDL_QueryTexture(text, NULL, NULL, &textRect.w, &textRect.h);
-						SDL_FreeSurface(textSurface);
-						//textSurface = nullptr;
-						SDL_RenderCopy(m_renderTarget, text, NULL, &textRect);
-						SDL_RenderPresent(m_renderTarget);
+						
 						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(-3.0f, 0.f, 0.f)); 
 						
 					}

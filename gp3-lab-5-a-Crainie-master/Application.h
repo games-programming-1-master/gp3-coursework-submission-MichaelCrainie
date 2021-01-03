@@ -22,12 +22,7 @@ private:
 	static Application* m_application;
 	SDL_Window *m_window = nullptr;
 	SDL_GLContext m_glContext = nullptr;
-	SDL_Renderer* renderer;
-	SDL_Color* textColor;
-	TTF_Font* font;
-	SDL_Surface* message;
-	SDL_Texture *text;
-	SDL_Rect *textRect;
+	SDL_Renderer *m_renderTarget = nullptr;
 	int m_windowWidth = 1280;
 	int m_windowHeight = 720;
 	AppState m_appState = AppState::INITILISING;
