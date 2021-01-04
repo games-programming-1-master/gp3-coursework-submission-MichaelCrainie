@@ -34,7 +34,7 @@ Application *Application::m_application = nullptr;
 static cSoundMgr* theSoundMgr = cSoundMgr::getInstance();
 Entity* a = new Entity();
 Entity* b = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
-Entity* thirdPersonCamera = new Entity(glm::vec3(0.f, 5.f, 80.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* thirdPersonCamera = new Entity(glm::vec3(0.f, 5.f, 70.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* c = new Entity(glm::vec3(0.f, 0.f, -20.f), glm::quat({ 0, 0, 0 }), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.f, 0.f, 5.f));
 Entity* d = new Entity(glm::vec3(0.f, -10.f, -100.f), glm::quat({ 0, 0, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
 Entity* e = new Entity(glm::vec3(0.f, -10.f, 70.f), glm::quat({ 0, 160.3f, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
@@ -454,7 +454,7 @@ void Application::GameInit()
 	//b = new Entity();
 	//m_entities.push_back(thirdPersonCamera);
 	
-	thirdPersonCamera->AddComponent(cc);
+	b->AddComponent(cc);
 	cc->Start();
 	a->AddComponent(dd);
 	
@@ -570,7 +570,7 @@ void Application::Loop()
 				case SDLK_a:
 					if (modifyControls == false) 
 					{
-
+						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()* glm::vec3(-1, -1, -1)));
 					}
 					if(modifyControls == true) 
 					{ 
@@ -581,7 +581,7 @@ void Application::Loop()
 				case SDLK_d:
 					if (modifyControls == false) 
 					{ 
-
+						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()));
 					}
 					if(modifyControls == true) 
 					{ 
@@ -593,8 +593,7 @@ void Application::Loop()
 				case SDLK_s:
 					if (modifyControls == false) 
 					{ 
-						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, 3.f));
-						//output(50, 50, 1, 1, 1, "Hello Friends");
+						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward() * glm::vec3(-1, -1, -1)));
 					}
 					if (modifyControls == true) 
 					{ 
@@ -607,7 +606,7 @@ void Application::Loop()
 				case SDLK_w:
 					if (modifyControls == false) 
 					{ 
-						//b->GetComponent<RigidBody>()->Get()->applyImpulse(btVector3(0.f, 0.f, -3.f), btVector3(0, 0, 0)); 
+						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward()));
 					}
 					if (modifyControls == true) 
 					{ 
@@ -739,7 +738,7 @@ void Application::Loop()
 		{
 			if (modifyControls == false)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.f));
+				//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.f) * b->GetTransform()->GetForward());
 			}
 			if (modifyControls == true)
 			{
