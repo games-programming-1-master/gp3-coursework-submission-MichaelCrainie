@@ -65,6 +65,8 @@ Application::Application()
 
 void Application::Init()
 {
+
+	
 	SDL_Init(SDL_INIT_VIDEO);
 	if (TTF_Init() < 0)
 	{
@@ -132,7 +134,10 @@ void Application::output(int x, int y, float r, float g, float b, const char* st
 	}
 }
 
-
+btVector3 glmToBullet(const glm::vec3& v)
+{
+	return btVector3(v.x, v.y, v.z);
+}
 /*void drawText(const char* text, int length, int x, int y)
 {
 	glMatrixMode(GL_PROJECTION);
@@ -234,6 +239,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/goals.obj");
 	Resources::GetInstance()->AddModel("Models/footballBoot3.obj");
 	Resources::GetInstance()->AddModel("Models/footballBoot4.obj");
+	Resources::GetInstance()->AddModel("Models/emptyObject.obj");
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Gold.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ice.jpg");
@@ -426,6 +432,11 @@ void Application::GameInit()
 		Resources::GetInstance()->GetModel("Models/portal.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"));
 	
 	
 	
@@ -553,7 +564,7 @@ void Application::Loop()
 		//poll SDL events
 		while (SDL_PollEvent(&event))
 		{
-
+			SDL_SetRelativeMouseMode(SDL_TRUE);
 			b->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			c->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
@@ -581,7 +592,7 @@ void Application::Loop()
 				case SDLK_d:
 					if (modifyControls == false) 
 					{ 
-						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()));
+						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()));
 					}
 					if(modifyControls == true) 
 					{ 
@@ -593,7 +604,7 @@ void Application::Loop()
 				case SDLK_s:
 					if (modifyControls == false) 
 					{ 
-						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward() * glm::vec3(-1, -1, -1)));
+						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward() * glm::vec3(-1, -1, -1)));
 					}
 					if (modifyControls == true) 
 					{ 
@@ -606,7 +617,7 @@ void Application::Loop()
 				case SDLK_w:
 					if (modifyControls == false) 
 					{ 
-						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward()));
+						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward()));
 					}
 					if (modifyControls == true) 
 					{ 
@@ -683,10 +694,11 @@ void Application::Loop()
 			//record when the user releases a key
 			case SDL_MOUSEMOTION:
 				INPUT->MoveMouse(glm::ivec2(event.motion.xrel, event.motion.yrel));
-				SDL_SetRelativeMouseMode(SDL_TRUE);
+				
 				if (SDL_GetRelativeMouseMode() == true && modifyControls == false)
 				{
 					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
+					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.yrel, b->GetTransform()->GetRight());
 					b->GetTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
 				}
 				break;
@@ -707,7 +719,11 @@ void Application::Loop()
 			
 			if (modifyControls == false)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(1.0f, 0.f, 0.f)); 
+				//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(1.0f, 0.f, 0.f));
+				glm::vec3 vec = b->GetTransform()->GetRight();
+				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(vec));
+				
+				
 			}
 			if (modifyControls == true)
 			{
@@ -721,7 +737,8 @@ void Application::Loop()
 		{
 			if (modifyControls == false)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(-1.0f, 0.f, 0.f)); 
+				glm::vec3 vec = b->GetTransform()->GetRight();
+				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(-vec));
 
 			}
 			if (modifyControls == true)
@@ -738,7 +755,8 @@ void Application::Loop()
 		{
 			if (modifyControls == false)
 			{
-				//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.f) * b->GetTransform()->GetForward());
+				glm::vec3 vec = b->GetTransform()->GetForward();
+				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(vec));
 			}
 			if (modifyControls == true)
 			{
@@ -753,7 +771,8 @@ void Application::Loop()
 		{
 			if (modifyControls == false)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, 1.5f));
+				glm::vec3 vec = b->GetTransform()->GetForward();
+				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(-vec));
 			}
 			if (modifyControls == true)
 			{
@@ -833,7 +852,7 @@ void Application::Loop()
 			btVector3 zeroVector(0, 0, 0);
 			b->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			b->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
-			b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/portal.obj"));
+			b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 				
 		}
 
@@ -871,6 +890,7 @@ void Application::Quit()
 	SDL_QuitSubSystem(SDL_INIT_EVERYTHING);
 	SDL_Quit();
 }
+
 
 
 
