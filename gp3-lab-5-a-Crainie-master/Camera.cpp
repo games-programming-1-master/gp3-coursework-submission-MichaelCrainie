@@ -25,7 +25,7 @@ void Camera::Recalculate()
 		
 		m_viewMatrix = glm::lookAt(m_parentTransform->GetPosition() + positionModifer,
 			((m_parentTransform->GetPosition() + glm::vec3(0, 0, 0)) + (m_parentTransform->GetForward()) + glm::vec3(0, 0, 0)),
-			m_parentTransform->GetUp() + glm::vec3(0, 0, 0));
+			m_parentTransform->GetUp());
 
 
 		

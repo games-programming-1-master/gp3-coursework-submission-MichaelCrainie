@@ -34,6 +34,7 @@ Application *Application::m_application = nullptr;
 static cSoundMgr* theSoundMgr = cSoundMgr::getInstance();
 Entity* a = new Entity();
 Entity* b = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* thirdPersonCamera = new Entity(glm::vec3(0.f, 5.f, 80.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* c = new Entity(glm::vec3(0.f, 0.f, -20.f), glm::quat({ 0, 0, 0 }), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.f, 0.f, 5.f));
 Entity* d = new Entity(glm::vec3(0.f, -10.f, -100.f), glm::quat({ 0, 0, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
 Entity* e = new Entity(glm::vec3(0.f, -10.f, 70.f), glm::quat({ 0, 160.3f, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
@@ -52,6 +53,7 @@ glm::vec3 ballStart = glm::vec3(0, 0, -20.f);
 float cameraDistance = 10.f;
 SDL_Event event;
 CameraComp* cc = new CameraComp();
+CameraComp* dd = new CameraComp();
 glm::vec3 ballX;
 const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
@@ -427,7 +429,7 @@ void Application::GameInit()
 	
 	
 	
-	
+	//thirdPersonCamera->AddComponent<RigidBody>();
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -450,10 +452,11 @@ void Application::GameInit()
 	}
 
 	//b = new Entity();
-	//m_entities.push_back(b);
+	//m_entities.push_back(thirdPersonCamera);
 	
-	b->AddComponent(cc);
+	thirdPersonCamera->AddComponent(cc);
 	cc->Start();
+	a->AddComponent(dd);
 	
 
 	
@@ -482,7 +485,7 @@ void Application::Loop()
 
 	while (m_appState != AppState::QUITTING)
 	{
-		
+		thirdPersonCamera->GetTransform()->SetPosition(b->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
 		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "HERE" << std::endl;
@@ -567,26 +570,22 @@ void Application::Loop()
 				case SDLK_a:
 					if (modifyControls == false) 
 					{
-						
-						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(-3.0f, 0.f, 0.f)); 
-						
+
 					}
 					if(modifyControls == true) 
 					{ 
-						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -3.f));
-						
+
 					}
-					//b->GetComponent<RigidBody>()->UpdateRigidBody();
-					//b->GetComponent<RigidBody>()->UpdateParent();
+
 					break;
 				case SDLK_d:
 					if (modifyControls == false) 
 					{ 
-						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(3.0f, 0.f, 0.f)); 
+
 					}
 					if(modifyControls == true) 
 					{ 
-						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.0f, 0.f, 3.f));
+						
 					}
 					//b->GetComponent<RigidBody>()->UpdateRigidBody();
 					//b->GetComponent<RigidBody>()->UpdateParent();
@@ -643,8 +642,8 @@ void Application::Loop()
 					if (thirdPerson == true)
 					{
 						
-						a->AddComponent(cc);
-						cc->Start2();
+						//a->AddComponent(cc);
+						dd->Start();
 						thirdPerson = false;
 						m_mainCamera->DifferentCameraView();
 						modifyControls = true;
@@ -653,7 +652,7 @@ void Application::Loop()
 
 					else
 					{
-						b->AddComponent(cc);
+						//b->AddComponent(cc);
 						cc->Start();
 						thirdPerson = true;
 						modifyControls = false;
@@ -685,11 +684,12 @@ void Application::Loop()
 			//record when the user releases a key
 			case SDL_MOUSEMOTION:
 				INPUT->MoveMouse(glm::ivec2(event.motion.xrel, event.motion.yrel));
-				//SDL_SetRelativeMouseMode(SDL_TRUE);
-				//if (SDL_GetRelativeMouseMode() == true)
-				//{
+				SDL_SetRelativeMouseMode(SDL_TRUE);
+				if (SDL_GetRelativeMouseMode() == true && modifyControls == false)
+				{
 					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
-				//}
+					b->GetTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
+				}
 				break;
 			}
 		}
