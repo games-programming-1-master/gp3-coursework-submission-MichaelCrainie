@@ -369,7 +369,7 @@ void Application::GameInit()
 	m_entities.push_back(b);
 	b->AddComponent(
 		new MeshRenderer(
-			Resources::GetInstance()->GetModel("Models/footballBoot3.obj"),
+			Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"))
 	);
@@ -417,7 +417,7 @@ void Application::GameInit()
 	//c->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	c->AddComponent<RigidBody>();
 	//c->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 1.f, 10.f)));
-	c->GetComponent<RigidBody>()->Init(new SphereShape(0.6));
+	c->GetComponent<RigidBody>()->Init(new SphereShape(1));
 	c->GetComponent<RigidBody>()->Get()->setFriction(0.1);
 	c->GetComponent<RigidBody>()->Get()->setRollingFriction(0.1);
 	c->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -434,7 +434,7 @@ void Application::GameInit()
 		Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"));
 
 	new MeshRenderer(
-		Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
+		Resources::GetInstance()->GetModel("Models/footballBoot3.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"));
 	
@@ -477,7 +477,7 @@ void Application::GameInit()
 
 
 	
-
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	Resources::GetInstance()->ReleaseUnusedResources();
 
 }
@@ -564,7 +564,7 @@ void Application::Loop()
 		//poll SDL events
 		while (SDL_PollEvent(&event))
 		{
-			SDL_SetRelativeMouseMode(SDL_TRUE);
+			
 			b->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			c->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
@@ -581,7 +581,7 @@ void Application::Loop()
 				case SDLK_a:
 					if (modifyControls == false) 
 					{
-						b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()* glm::vec3(-1, -1, -1)));
+						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()* glm::vec3(-1, -1, -1)));
 					}
 					if(modifyControls == true) 
 					{ 
@@ -651,7 +651,7 @@ void Application::Loop()
 				case SDLK_c:
 					if (thirdPerson == true)
 					{
-						
+						b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
 						//a->AddComponent(cc);
 						dd->Start();
 						thirdPerson = false;
@@ -663,6 +663,7 @@ void Application::Loop()
 					else
 					{
 						//b->AddComponent(cc);
+						b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 						cc->Start();
 						thirdPerson = true;
 						modifyControls = false;
