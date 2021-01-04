@@ -651,6 +651,7 @@ void Application::Loop()
 				case SDLK_c:
 					if (thirdPerson == true)
 					{
+						b->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
 						b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
 						//a->AddComponent(cc);
 						dd->Start();
