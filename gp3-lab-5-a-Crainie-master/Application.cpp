@@ -66,7 +66,7 @@ Application::Application()
 
 void Application::Init()
 {
-
+	
 	TTF_Init();
 	SDL_Init(SDL_INIT_VIDEO);
 	if (TTF_Init() < 0)
@@ -126,6 +126,7 @@ void Application::drawBitmapText(const char* string, float x, float y, float z)
 
 void Application::output(int x, int y, float r, float g, float b, const char* string)
 {
+	
 	glColor3f(r, g, b);
 	glRasterPos2f(x, y);
 	int len, i;
@@ -514,6 +515,8 @@ void Application::Loop()
 
 	while (m_appState != AppState::QUITTING)
 	{
+		
+		
 		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0}));
 		thirdPersonCamera->GetTransform()->SetPosition(b->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
 		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
