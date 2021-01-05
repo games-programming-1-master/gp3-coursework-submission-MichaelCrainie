@@ -35,13 +35,13 @@ static cSoundMgr* theSoundMgr = cSoundMgr::getInstance();
 Entity* a = new Entity();
 Entity* player1 = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* thirdPersonCamera = new Entity(glm::vec3(0.f, 5.f, 70.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
-Entity* c = new Entity(glm::vec3(0.f, 0.f, -20.f), glm::quat({ 0, 0, 0 }), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.f, 0.f, 5.f));
-Entity* d = new Entity(glm::vec3(0.f, -10.f, -100.f), glm::quat({ 0, 0, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
-Entity* e = new Entity(glm::vec3(0.f, -10.f, 70.f), glm::quat({ 0, 160.3f, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
-Entity* f = new Entity(glm::vec3(0.f, -10.f, 100.f), glm::quat({ 0, 0, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
-Entity* g = new Entity(glm::vec3(0.f, -10.f, -140.f), glm::quat({ 0, 0, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
-Entity* h = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
-Entity* i = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
+Entity* ball = new Entity(glm::vec3(0.f, 0.f, -20.f), glm::quat({ 0, 0, 0 }), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.f, 0.f, 5.f));
+Entity* goals1 = new Entity(glm::vec3(0.f, -10.f, -100.f), glm::quat({ 0, 0, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
+Entity* goals2 = new Entity(glm::vec3(0.f, -10.f, 70.f), glm::quat({ 0, 160.3f, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
+Entity* wall1 = new Entity(glm::vec3(0.f, -10.f, 100.f), glm::quat({ 0, 0, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
+Entity* wall2 = new Entity(glm::vec3(0.f, -10.f, -140.f), glm::quat({ 0, 0, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
+Entity* wall3 = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
+Entity* wall4 = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* snowFlakePowerUp = new Entity(glm::vec3(-400.f, -8.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(15.f, 15.f, 15.f), glm::vec3(0.f, 0.f, 5.f));
 
@@ -280,95 +280,95 @@ void Application::GameInit()
 	a->GetComponent<RigidBody>()->Get()->setFriction(1);
 	//a->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
-	m_entities.push_back(d);
-	d->AddComponent(
+	m_entities.push_back(goals1);
+	goals1->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/goals.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/Gold.jpg"))
 	);
-	MeshRenderer* p = d->GetComponent<MeshRenderer>();
+	MeshRenderer* p = goals1->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	d->AddComponent<RigidBody>();
-	d->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, 0.05f)));
-	d->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	d->GetComponent<RigidBody>()->Get()->setFriction(1);
-	d->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	goals1->AddComponent<RigidBody>();
+	goals1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, 0.05f)));
+	goals1->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	goals1->GetComponent<RigidBody>()->Get()->setFriction(1);
+	goals1->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
-	m_entities.push_back(f);
-	f->AddComponent(
+	m_entities.push_back(wall1);
+	wall1->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/wall.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
-	MeshRenderer* r = f->GetComponent<MeshRenderer>();
+	MeshRenderer* r = wall1->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	f->AddComponent<RigidBody>();
-	f->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 30.f, 1.f)));
-	f->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	f->GetComponent<RigidBody>()->Get()->setFriction(1);
-	f->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	wall1->AddComponent<RigidBody>();
+	wall1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 30.f, 1.f)));
+	wall1->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	wall1->GetComponent<RigidBody>()->Get()->setFriction(1);
+	wall1->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
-	m_entities.push_back(g);
-	g->AddComponent(
+	m_entities.push_back(wall2);
+	wall2->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/wall.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
-	MeshRenderer* s = g->GetComponent<MeshRenderer>();
+	MeshRenderer* s = wall2->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	g->AddComponent<RigidBody>();
-	g->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 30.f, 1.f)));
-	g->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	g->GetComponent<RigidBody>()->Get()->setFriction(1);
-	g->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	wall2->AddComponent<RigidBody>();
+	wall2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 30.f, 1.f)));
+	wall2->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	wall2->GetComponent<RigidBody>()->Get()->setFriction(1);
+	wall2->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
-	m_entities.push_back(h);
-	h->AddComponent(
+	m_entities.push_back(wall3);
+	wall3->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/wall.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
-	MeshRenderer* t = h->GetComponent<MeshRenderer>();
+	MeshRenderer* t = wall3->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	h->AddComponent<RigidBody>();
-	h->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 30.f, 5.f)));
-	h->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	h->GetComponent<RigidBody>()->Get()->setFriction(1);
-	h->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	wall3->AddComponent<RigidBody>();
+	wall3->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 30.f, 5.f)));
+	wall3->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	wall3->GetComponent<RigidBody>()->Get()->setFriction(1);
+	wall3->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
-	m_entities.push_back(i);
-	i->AddComponent(
+	m_entities.push_back(wall4);
+	wall4->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/wall.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
-	MeshRenderer* u = i->GetComponent<MeshRenderer>();
+	MeshRenderer* u = wall4->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	i->AddComponent<RigidBody>();
-	i->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 30.f, 5.f)));
-	i->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	i->GetComponent<RigidBody>()->Get()->setFriction(1);
-	i->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	wall4->AddComponent<RigidBody>();
+	wall4->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 30.f, 5.f)));
+	wall4->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	wall4->GetComponent<RigidBody>()->Get()->setFriction(1);
+	wall4->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
-	m_entities.push_back(e);
-	e->AddComponent(
+	m_entities.push_back(goals2);
+	goals2->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/goals.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/Gold.jpg"))
 	);
-	MeshRenderer* q = e->GetComponent<MeshRenderer>();
+	MeshRenderer* q = goals2->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	e->AddComponent<RigidBody>();
-	e->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, -0.05f)));
-	e->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	e->GetComponent<RigidBody>()->Get()->setFriction(1);
-	e->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	goals2->AddComponent<RigidBody>();
+	goals2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, -0.05f)));
+	goals2->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	goals2->GetComponent<RigidBody>()->Get()->setFriction(1);
+	goals2->GetComponent<RigidBody>()->Get()->setRestitution(1);
 	
 
 	
@@ -426,23 +426,23 @@ void Application::GameInit()
 	//b->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	//b->GetTransform()->SetScale(glm::vec3(10.f, 10.f, 10.f));
 	
-	m_entities.push_back(c);
-	c->AddComponent(
+	m_entities.push_back(ball);
+	ball->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/football.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"))
 	);
-	MeshRenderer* o = c->GetComponent<MeshRenderer>();
+	MeshRenderer* o = ball->GetComponent<MeshRenderer>();
 	//c->GetTransform()->SetPosition(glm::vec3(20.f, 0.f, 0.f));
 	//c->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
-	c->AddComponent<RigidBody>();
+	ball->AddComponent<RigidBody>();
 	//c->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 1.f, 10.f)));
-	c->GetComponent<RigidBody>()->Init(new SphereShape(1));
-	c->GetComponent<RigidBody>()->Get()->setFriction(0.1);
-	c->GetComponent<RigidBody>()->Get()->setRollingFriction(0.1);
-	c->GetComponent<RigidBody>()->Get()->setRestitution(1);
-	c->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0.f, 0, 0.f));
+	ball->GetComponent<RigidBody>()->Init(new SphereShape(1));
+	ball->GetComponent<RigidBody>()->Get()->setFriction(0.1);
+	ball->GetComponent<RigidBody>()->Get()->setRollingFriction(0.1);
+	ball->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	ball->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0.f, 0, 0.f));
 	//c->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	//btCompoundShape* compound = new btCompoundShape();
 	//btTransform localTrans;
@@ -521,8 +521,8 @@ void Application::Loop()
 	auto prevTicks = std::chrono::high_resolution_clock::now();
 	player1->GetComponent<RigidBody>()->UpdateParent();
 	player1->GetComponent<RigidBody>()->UpdateRigidBody();
-	c->GetComponent<RigidBody>()->UpdateParent();
-	c->GetComponent<RigidBody>()->UpdateRigidBody();
+	ball->GetComponent<RigidBody>()->UpdateParent();
+	ball->GetComponent<RigidBody>()->UpdateRigidBody();
 	ballX = player1->GetTransform()->GetPosition();
 
 	while (m_appState != AppState::QUITTING)
@@ -600,7 +600,7 @@ void Application::Loop()
 		}
 		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0}));
 		thirdPersonCamera->GetTransform()->SetPosition(player1->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, ball->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "HERE" << std::endl;
 			//c->GetTransform()->SetPosition(glm::vec3(b->GetTransform()->GetPosition.x,);
@@ -648,19 +648,19 @@ void Application::Loop()
 			
 		}
 
-		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, d->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), 0, 0, goals1->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "player1 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
-			c->GetComponent<RigidBody>()->Get()->clearForces();
+			ball->GetComponent<RigidBody>()->Get()->clearForces();
 			btVector3 zeroVector(0, 0, 0);
 			player1->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			player1->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
-			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
-			c->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
+			ball->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
+			ball->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			//theSoundMgr->getSnd("blueGoal")->play(0);
 			blueRandomNumber = 1 + (rand() % 3);
 			switch (blueRandomNumber)
@@ -677,23 +677,23 @@ void Application::Loop()
 				break;
 			}
 			theSoundMgr->getSnd("crowd")->play(0);
-			c->GetTransform()->SetPosition(ballStart);
+			ball->GetTransform()->SetPosition(ballStart);
 			
 		}
 
-		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, e->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), 0, 0, goals2->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "player2 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
-			c->GetComponent<RigidBody>()->Get()->clearForces();
+			ball->GetComponent<RigidBody>()->Get()->clearForces();
 			btVector3 zeroVector(0, 0, 0);
 			player1->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			player1->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
-			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
-			c->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
+			ball->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
+			ball->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			//theSoundMgr->getSnd("redGoal")->play(0);
 			redRandomNumber = 1 + (rand() % 3);
 			switch (redRandomNumber)
@@ -710,7 +710,7 @@ void Application::Loop()
 				break;
 			}
 			theSoundMgr->getSnd("crowd")->play(0);
-			c->GetTransform()->SetPosition(ballStart);
+			ball->GetTransform()->SetPosition(ballStart);
 			//isGrounded = false;
 		}
 
@@ -730,7 +730,7 @@ void Application::Loop()
 			}
 			player1->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
-			c->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
+			ball->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
 			switch (event.type)
 			{
 			case SDL_QUIT:
@@ -984,11 +984,11 @@ void Application::Loop()
 		if (currentKeyStates[SDL_SCANCODE_Z] && currentKeyStates[SDL_SCANCODE_BACKSPACE])
 		{
 			
-			c->GetComponent<RigidBody>()->Get()->clearForces();
+			ball->GetComponent<RigidBody>()->Get()->clearForces();
 			btVector3 zeroVector(0, 0, 0);
-			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
-			c->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
-			c->GetTransform()->SetPosition(ballStart);
+			ball->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
+			ball->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
+			ball->GetTransform()->SetPosition(ballStart);
 		}
 		
 
@@ -1047,7 +1047,7 @@ void Application::AttachBallPlayer1()
 {
 	
 	
-		c->GetTransform()->SetPosition(glm::vec3(ballX.x, ballX.y + 5, ballX.z + 40));
+		ball->GetTransform()->SetPosition(glm::vec3(ballX.x, ballX.y + 5, ballX.z + 40));
 		ballAttached = false;
 	
 }
