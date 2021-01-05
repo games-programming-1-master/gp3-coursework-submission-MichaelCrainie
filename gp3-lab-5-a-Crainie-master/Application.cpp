@@ -43,6 +43,7 @@ Entity* g = new Entity(glm::vec3(0.f, -10.f, -140.f), glm::quat({ 0, 0, 0 }), gl
 Entity* h = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* i = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* snowFlakePowerUp = new Entity(glm::vec3(0.f, -10.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 
 
 
@@ -240,6 +241,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/footballBoot3.obj");
 	Resources::GetInstance()->AddModel("Models/footballBoot4.obj");
 	Resources::GetInstance()->AddModel("Models/emptyObject.obj");
+	Resources::GetInstance()->AddModel("Models/snowflakes.obj");
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Gold.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ice.jpg");
@@ -382,6 +384,21 @@ void Application::GameInit()
 	b->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0, 0, 0));
 	//b->GetComponent<RigidBody>()->Get()->setRollingFriction(1);
 	b->GetComponent<RigidBody>()->Get()->setRestitution(1);
+
+	m_entities.push_back(snowFlakePowerUp);
+	snowFlakePowerUp->AddComponent(
+		new MeshRenderer(
+			Resources::GetInstance()->GetModel("Models/snowflakes.obj"),
+			Resources::GetInstance()->GetShader("simple"),
+			Resources::GetInstance()->GetTexture("Images/Textures/Ice.jpg"))
+	);
+
+	MeshRenderer* z = snowFlakePowerUp->GetComponent<MeshRenderer>();
+	snowFlakePowerUp->AddComponent<RigidBody>();
+	snowFlakePowerUp->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 1.f, 10.f)));
+	//snowFlakePowerUp->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+		
 	
 	//b->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	//b->GetTransform()->SetScale(glm::vec3(10.f, 10.f, 10.f));
