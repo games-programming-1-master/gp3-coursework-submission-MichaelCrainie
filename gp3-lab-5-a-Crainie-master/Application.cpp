@@ -223,7 +223,7 @@ void Application::GameInit()
 		// Load game sounds
 		soundList = { "theme", "click", "blueGoal", "blueGoal2", "blueGoal3", "redGoal", "redGoal2", "redGoal3", "freeze", "blueFreeze", "redFreeze", "redTeamWins", "blueTeamWins", "crowd" };
 		soundTypes = { soundType::music, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx ,soundType::sfx, soundType::sfx, soundType::sfx };
-		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal2.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal3.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal2.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal3.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav", ASSET_AUDIO_PATH_SFX + "blueTeamFreeze.wav", ASSET_AUDIO_PATH_SFX + "redTeamFreeze.wav", ASSET_AUDIO_PATH_SFX + "redTeamWins.wav", ASSET_AUDIO_PATH_SFX + "blueTeamWins.wav", ASSET_AUDIO_PATH_SFX + "crowdCheer2.wav" };
+		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal4.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal5.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal2.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal3.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal4.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav", ASSET_AUDIO_PATH_SFX + "blueTeamFreeze.wav", ASSET_AUDIO_PATH_SFX + "redTeamFreeze.wav", ASSET_AUDIO_PATH_SFX + "redTeamWins.wav", ASSET_AUDIO_PATH_SFX + "blueTeamWins.wav", ASSET_AUDIO_PATH_SFX + "crowdCheer2.wav" };
 		for (unsigned int sounds = 0; sounds < soundList.size(); sounds++)
 		{
 			theSoundMgr -> add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
@@ -630,6 +630,7 @@ void Application::Loop()
 			player2FreezeTimer = 200;
 			snowPowerUpTimer = 3000;
 			player2Frozen = true;
+			theSoundMgr->getSnd("redFreeze")->play(0);
 			theSoundMgr->getSnd("freeze")->play(0);
 		}
 
@@ -660,7 +661,21 @@ void Application::Loop()
 			player2->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
-			theSoundMgr->getSnd("blueGoal")->play(0);
+			//theSoundMgr->getSnd("blueGoal")->play(0);
+			blueRandomNumber = 1 + (rand() % 3);
+			switch (blueRandomNumber)
+			{
+			case 1:
+				theSoundMgr->getSnd("blueGoal")->play(0);
+				break;
+
+			case 2:
+				theSoundMgr->getSnd("blueGoal2")->play(0);
+				break;
+			case 3:
+				theSoundMgr->getSnd("blueGoal3")->play(0);
+				break;
+			}
 			theSoundMgr->getSnd("crowd")->play(0);
 			c->GetTransform()->SetPosition(ballStart);
 			
@@ -679,7 +694,21 @@ void Application::Loop()
 			player2->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
-			theSoundMgr->getSnd("redGoal")->play(0);
+			//theSoundMgr->getSnd("redGoal")->play(0);
+			redRandomNumber = 1 + (rand() % 3);
+			switch (redRandomNumber)
+			{
+			case 1:
+				theSoundMgr->getSnd("redGoal")->play(0);
+				break;
+
+			case 2:
+				theSoundMgr->getSnd("redGoal2")->play(0);
+				break;
+			case 3:
+				theSoundMgr->getSnd("redGoal3")->play(0);
+				break;
+			}
 			theSoundMgr->getSnd("crowd")->play(0);
 			c->GetTransform()->SetPosition(ballStart);
 			//isGrounded = false;

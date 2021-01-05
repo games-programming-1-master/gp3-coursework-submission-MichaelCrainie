@@ -47,6 +47,8 @@ private:
 	bool player2Frozen = false;
 	int snowPowerUpTimer = 400;
 	int randomNumber;
+	int redRandomNumber;
+	int blueRandomNumber;
 
 	//private functions
 	Application();
