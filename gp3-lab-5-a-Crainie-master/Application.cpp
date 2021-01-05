@@ -221,9 +221,9 @@ void Application::GameInit()
 	{
 		
 		// Load game sounds
-		soundList = { "theme", "click", "blueGoal", "redGoal", "freeze" };
-		soundTypes = { soundType::music, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx };
-		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav" };
+		soundList = { "theme", "click", "blueGoal", "redGoal", "freeze", "crowd" };
+		soundTypes = { soundType::music, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx };
+		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav", ASSET_AUDIO_PATH_SFX + "crowdCheer.wav" };
 		for (unsigned int sounds = 0; sounds < soundList.size(); sounds++)
 		{
 			theSoundMgr -> add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
@@ -659,6 +659,7 @@ void Application::Loop()
 			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			theSoundMgr->getSnd("blueGoal")->play(0);
+			theSoundMgr->getSnd("crowd")->play(0);
 			c->GetTransform()->SetPosition(ballStart);
 			
 		}
@@ -677,6 +678,7 @@ void Application::Loop()
 			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			theSoundMgr->getSnd("redGoal")->play(0);
+			theSoundMgr->getSnd("crowd")->play(0);
 			c->GetTransform()->SetPosition(ballStart);
 			//isGrounded = false;
 		}
@@ -691,7 +693,10 @@ void Application::Loop()
 		//poll SDL events
 		while (SDL_PollEvent(&event))
 		{
-			
+			if (firstPerson == true)
+			{
+				b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
+			}
 			b->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			c->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
@@ -729,7 +734,8 @@ void Application::Loop()
 					if (firstPerson == true)
 					{
 						b->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
-						b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
+						if (player1Frozen == false) { b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj")); }
+						if (player1Frozen == true) { b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj")); }
 						//a->AddComponent(cc);
 						dd->Start();
 						firstPerson = false;
