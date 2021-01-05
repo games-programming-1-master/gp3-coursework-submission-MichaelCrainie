@@ -517,7 +517,7 @@ void Application::Loop()
 
 
 	m_appState = AppState::RUNNING;
-	std::cout << playerX << std::endl;
+	//std::cout << playerX << std::endl;
 	auto prevTicks = std::chrono::high_resolution_clock::now();
 	player1->GetComponent<RigidBody>()->UpdateParent();
 	player1->GetComponent<RigidBody>()->UpdateRigidBody();
@@ -600,7 +600,7 @@ void Application::Loop()
 		}
 		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0}));
 		thirdPersonCamera->GetTransform()->SetPosition(player1->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, ball->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), ball->GetComponent<RigidBody>()->Get()) == true)
 		{
 			std::cout << "HERE" << std::endl;
 			//c->GetTransform()->SetPosition(glm::vec3(b->GetTransform()->GetPosition.x,);
@@ -609,19 +609,19 @@ void Application::Loop()
 
 		}
 
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, a->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = true;
 		}
 
-		if (!Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, a->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (!Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = false;
 		}
 
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), snowFlakePowerUp->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
@@ -634,7 +634,7 @@ void Application::Loop()
 			theSoundMgr->getSnd("freeze")->play(0);
 		}
 
-		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), snowFlakePowerUp->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
@@ -648,7 +648,7 @@ void Application::Loop()
 			
 		}
 
-		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), 0, 0, goals1->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals1->GetComponent<RigidBody>()->Get()) == true)
 		{
 			std::cout << "player1 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
@@ -681,7 +681,7 @@ void Application::Loop()
 			
 		}
 
-		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), 0, 0, goals2->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals2->GetComponent<RigidBody>()->Get()) == true)
 		{
 			std::cout << "player2 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);

@@ -47,19 +47,19 @@ void Physics::Quit()
 	delete m_collisionConfig;
 }
 
-bool Physics::Collision3D(btCollisionObject* obj1, int id1, int index1, btCollisionObject* obj2, int id2, int index2)
+bool Physics::Collision3D(btCollisionObject* object1, btCollisionObject* object2)
 {
-	if ((obj1->getBroadphaseHandle()->m_aabbMax.x() < obj2->getBroadphaseHandle()->m_aabbMin.x()) || (obj1->getBroadphaseHandle()->m_aabbMin.x() > obj2->getBroadphaseHandle()->m_aabbMax.x()))
+	if ((object1->getBroadphaseHandle()->m_aabbMax.x() < object2->getBroadphaseHandle()->m_aabbMin.x()) || (object1->getBroadphaseHandle()->m_aabbMin.x() > object2->getBroadphaseHandle()->m_aabbMax.x()))
 	{
 		return false;
 	}
 
-	if ((obj1->getBroadphaseHandle()->m_aabbMax.y() < obj2->getBroadphaseHandle()->m_aabbMin.y()) || (obj1->getBroadphaseHandle()->m_aabbMin.y() > obj2->getBroadphaseHandle()->m_aabbMax.y()))
+	if ((object1->getBroadphaseHandle()->m_aabbMax.y() < object2->getBroadphaseHandle()->m_aabbMin.y()) || (object1->getBroadphaseHandle()->m_aabbMin.y() > object2->getBroadphaseHandle()->m_aabbMax.y()))
 	{
 		return false;
 	}
 
-	if ((obj1->getBroadphaseHandle()->m_aabbMax.z() < obj2->getBroadphaseHandle()->m_aabbMin.z()) || (obj1->getBroadphaseHandle()->m_aabbMin.z() > obj2->getBroadphaseHandle()->m_aabbMax.z()))
+	if ((object1->getBroadphaseHandle()->m_aabbMax.z() < object2->getBroadphaseHandle()->m_aabbMin.z()) || (object1->getBroadphaseHandle()->m_aabbMin.z() > object2->getBroadphaseHandle()->m_aabbMax.z()))
 	{
 		return false;
 	}
