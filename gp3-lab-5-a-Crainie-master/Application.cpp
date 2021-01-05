@@ -223,7 +223,7 @@ void Application::GameInit()
 		// Load game sounds
 		soundList = { "theme", "click", "blueGoal", "redGoal", "freeze", "crowd" };
 		soundTypes = { soundType::music, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx };
-		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav", ASSET_AUDIO_PATH_SFX + "crowdCheer.wav" };
+		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav", ASSET_AUDIO_PATH_SFX + "crowdCheer2.wav" };
 		for (unsigned int sounds = 0; sounds < soundList.size(); sounds++)
 		{
 			theSoundMgr -> add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
