@@ -236,7 +236,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/portal.obj");
 	Resources::GetInstance()->AddModel("Models/cube2.obj");
 	Resources::GetInstance()->AddModel("Models/football.obj");
-	Resources::GetInstance()->AddModel("Models/hockeyGoal2.obj");
+	//Resources::GetInstance()->AddModel("Models/hockeyGoal2.obj");
 	Resources::GetInstance()->AddModel("Models/wall.obj");
 	Resources::GetInstance()->AddModel("Models/goals.obj");
 	Resources::GetInstance()->AddModel("Models/footballBoot3.obj");
