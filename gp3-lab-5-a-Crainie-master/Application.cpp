@@ -66,7 +66,7 @@ Application::Application()
 void Application::Init()
 {
 
-	
+	TTF_Init();
 	SDL_Init(SDL_INIT_VIDEO);
 	if (TTF_Init() < 0)
 	{
@@ -94,7 +94,7 @@ void Application::Init()
 	m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	TTF_Font *font = TTF_OpenFont("COMICATE.ttf", 20);
 	SDL_Color color = { 144, 77, 255, 255 };
-	SDL_Surface *textSurface = TTF_RenderText_Solid(font, "i work yes", color);
+	SDL_Surface *textSurface = TTF_RenderText_Solid(font, "Red Team 0 - 0 Blue Team", color);
 	SDL_Texture *text = SDL_CreateTextureFromSurface(m_renderTarget, textSurface);
 	SDL_Rect textRect;
 	textRect.x = textRect.y = 0;
@@ -578,62 +578,12 @@ void Application::Loop()
 				break;
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
-				case SDLK_a:
-					if (modifyControls == false) 
-					{
-						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()* glm::vec3(-1, -1, -1)));
-					}
-					if(modifyControls == true) 
+				case SDLK_SPACE:					
+					if (isGrounded == true) 
 					{ 
-
-					}
-
+						b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 10.f, 0.f)); 
+					}					
 					break;
-				case SDLK_d:
-					if (modifyControls == false) 
-					{ 
-						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetRight()));
-					}
-					if(modifyControls == true) 
-					{ 
-						
-					}
-					//b->GetComponent<RigidBody>()->UpdateRigidBody();
-					//b->GetComponent<RigidBody>()->UpdateParent();
-					break;
-				case SDLK_s:
-					if (modifyControls == false) 
-					{ 
-						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward() * glm::vec3(-1, -1, -1)));
-					}
-					if (modifyControls == true) 
-					{ 
-						//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(-3.f, 0.f, 0.f));
-					}
-					//b->GetTransform()->AddPosition(glm::vec3(0.0f, 0.f, 1.f));		
-					//b->GetComponent<RigidBody>()->UpdateRigidBody();
-					//b->GetComponent<RigidBody>()->UpdateParent();
-					break;
-				case SDLK_w:
-					if (modifyControls == false) 
-					{ 
-						//b->GetTransform()->AddPosition(glm::vec3(b->GetTransform()->GetForward()));
-					}
-					if (modifyControls == true) 
-					{ 
-						//b->GetComponent<RigidBody>()->Get()->applyImpulse(btVector3(3.f, 0.f, 0.f), btVector3(0, 0, 0)); 
-					}
-					//b->GetComponent<RigidBody>()->Get()->applyImpulse(btVector3(0.f, 0.f, -4.f), btVector3(0, 0, 0));
-					//b->GetComponent<RigidBody>()->UpdateRigidBody();
-					//b->GetComponent<RigidBody>()->UpdateParent();
-					break;
-				case SDLK_SPACE:
-					
-					//b->GetComponent<RigidBody>()->Get()->applyImpulse(btVector3(0.f, 10.f, 0.f), btVector3(0, 0, 0));
-					if (isGrounded == true) { b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 10.f, 0.f)); }
-					//m_mainCamera->tester();
-					break;
-
 				case SDLK_TAB:
 					if (soundPlaying == true)
 					{
@@ -691,7 +641,7 @@ void Application::Loop()
 					
 					break;
 				}
-			
+				break;
 				
 			//record when the user releases a key
 			case SDL_MOUSEMOTION:
