@@ -43,7 +43,7 @@ Entity* g = new Entity(glm::vec3(0.f, -10.f, -140.f), glm::quat({ 0, 0, 0 }), gl
 Entity* h = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* i = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
-Entity* snowFlakePowerUp = new Entity(glm::vec3(0.f, -10.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* snowFlakePowerUp = new Entity(glm::vec3(0.f, -8.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(20.f, 20.f, 20.f), glm::vec3(0.f, 0.f, 5.f));
 
 
 
@@ -245,6 +245,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Gold.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ice.jpg");
+	Resources::GetInstance()->AddTexture("Images/Textures/IceBlue.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Silver.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/road.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/grass.jpg");
@@ -390,13 +391,13 @@ void Application::GameInit()
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/snowflakes.obj"),
 			Resources::GetInstance()->GetShader("simple"),
-			Resources::GetInstance()->GetTexture("Images/Textures/Ice.jpg"))
+			Resources::GetInstance()->GetTexture("Images/Textures/IceBlue.jpg"))
 	);
 
 	MeshRenderer* z = snowFlakePowerUp->GetComponent<MeshRenderer>();
 	snowFlakePowerUp->AddComponent<RigidBody>();
-	snowFlakePowerUp->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 1.f, 10.f)));
-	//snowFlakePowerUp->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	snowFlakePowerUp->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(1.f, 1.f, 20.f)));
+	snowFlakePowerUp->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 
 		
 	
@@ -513,6 +514,7 @@ void Application::Loop()
 
 	while (m_appState != AppState::QUITTING)
 	{
+		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0}));
 		thirdPersonCamera->GetTransform()->SetPosition(b->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
 		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
@@ -533,6 +535,12 @@ void Application::Loop()
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = false;
+		}
+
+		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		{
+			//std::cout << "ground" << std::endl;
+			printf("FLAKE");
 		}
 
 		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, d->GetComponent<RigidBody>()->Get(), 1, 1) == true)
