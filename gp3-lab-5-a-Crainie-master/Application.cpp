@@ -221,9 +221,9 @@ void Application::GameInit()
 	{
 		
 		// Load game sounds
-		soundList = { "theme", "click", "blueGoal", "redGoal" };
-		soundTypes = { soundType::music, soundType::sfx, soundType::sfx, soundType::sfx };
-		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal.wav"};
+		soundList = { "theme", "click", "blueGoal", "redGoal", "freeze" };
+		soundTypes = { soundType::music, soundType::sfx, soundType::sfx, soundType::sfx, soundType::sfx };
+		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav" };
 		for (unsigned int sounds = 0; sounds < soundList.size(); sounds++)
 		{
 			theSoundMgr -> add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
@@ -536,50 +536,44 @@ void Application::Loop()
 		if (snowPowerUpTimer <= 0)
 		{
 			printf("YEASSSSS");
-			randomNumber = rand() % 7 + 0;
-			if (randomNumber == 0)
+			randomNumber = 1 + (rand() % 8);
+			switch (randomNumber)
 			{
+			case 1:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, 30.f));
-			}
+				snowPowerUpTimer = 3000;
+				break;
 
-			else if (randomNumber == 1)
-			{
+			case 2:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, -30.f));
-			}
-
-			else if (randomNumber == 2)
-			{
+				snowPowerUpTimer = 3000;
+				break;
+			case 3:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, -60.f));
-			}
-
-			else if (randomNumber == 3)
-			{
+				snowPowerUpTimer = 3000;
+				break;
+			case 4:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, -80.f));
-			}
-
-			else if (randomNumber == 4)
-			{
+				snowPowerUpTimer = 3000;
+				break;
+			case 5:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, 30.f));
-			}
-
-			else if (randomNumber == 5)
-			{
+				snowPowerUpTimer = 3000;
+				break;
+			case 6:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, -30.f));
-			}
-
-			else if (randomNumber == 6)
-			{
+				snowPowerUpTimer = 3000;
+				break;
+			case 7:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, -60.f));
-			}
-
-			else if (randomNumber == 7)
-			{
+				snowPowerUpTimer = 3000;
+				break;
+			case 8:
 				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, -80.f));
+				snowPowerUpTimer = 3000;
+				break;				
+				
 			}
-
-			snowPowerUpTimer = 3000;
-
-
 		}
 		if (player1FreezeTimer > 0)
 		{
@@ -636,6 +630,7 @@ void Application::Loop()
 			player2FreezeTimer = 200;
 			snowPowerUpTimer = 3000;
 			player2Frozen = true;
+			theSoundMgr->getSnd("freeze")->play(0);
 		}
 
 		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
@@ -647,6 +642,7 @@ void Application::Loop()
 			player1FreezeTimer = 200;
 			snowPowerUpTimer = 3000;
 			player1Frozen = true;
+			theSoundMgr->getSnd("freeze")->play(0);
 		}
 
 		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, d->GetComponent<RigidBody>()->Get(), 1, 1) == true)
