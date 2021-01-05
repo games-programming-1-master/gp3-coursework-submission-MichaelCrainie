@@ -113,7 +113,7 @@ void Application::Init()
 	
 }
 
-void Application::drawBitmapText(const char* string, float x, float y, float z)
+/*void Application::drawBitmapText(const char* string, float x, float y, float z)
 {
 	const char* c;
 	glRasterPos3f(x, y, z);
@@ -134,7 +134,7 @@ void Application::output(int x, int y, float r, float g, float b, const char* st
 	for (i = 0; i < len; i++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
 	}
-}
+}*/
 
 btVector3 glmToBullet(const glm::vec3& v)
 {
