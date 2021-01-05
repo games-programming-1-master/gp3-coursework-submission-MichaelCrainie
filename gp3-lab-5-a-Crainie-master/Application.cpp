@@ -373,7 +373,7 @@ void Application::GameInit()
 	m_entities.push_back(b);
 	b->AddComponent(
 		new MeshRenderer(
-			Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
+			Resources::GetInstance()->GetModel("Models/footballBoot3.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"))
 	);
@@ -453,7 +453,7 @@ void Application::GameInit()
 		Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"));
 
 	new MeshRenderer(
-		Resources::GetInstance()->GetModel("Models/footballBoot3.obj"),
+		Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"));
 	
@@ -485,8 +485,10 @@ void Application::GameInit()
 	//m_entities.push_back(thirdPersonCamera);
 	
 	b->AddComponent(cc);
-	cc->Start();
+	//cc->Start();
 	a->AddComponent(dd);
+	dd->Start();
+	m_mainCamera->DifferentCameraView();
 	
 
 	
@@ -543,7 +545,7 @@ void Application::Loop()
 		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			//std::cout << "ground" << std::endl;
-			printf("FLAKE");
+			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/portal.obj"));
 		}
 
 		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, d->GetComponent<RigidBody>()->Get(), 1, 1) == true)
@@ -627,13 +629,13 @@ void Application::Loop()
 						break;
 					}
 				case SDLK_c:
-					if (thirdPerson == true)
+					if (firstPerson == true)
 					{
 						b->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
 						b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
 						//a->AddComponent(cc);
 						dd->Start();
-						thirdPerson = false;
+						firstPerson = false;
 						m_mainCamera->DifferentCameraView();
 						modifyControls = true;
 						break;
@@ -644,7 +646,7 @@ void Application::Loop()
 						//b->AddComponent(cc);
 						b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 						cc->Start();
-						thirdPerson = true;
+						firstPerson = true;
 						modifyControls = false;
 						break;
 					}

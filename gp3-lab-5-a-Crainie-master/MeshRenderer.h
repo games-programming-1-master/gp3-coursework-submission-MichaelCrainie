@@ -17,6 +17,7 @@ public:
 	virtual void OnUpdate(float deltaTime) override;
 	virtual void OnRender() override;
 	void EditMesh(std::shared_ptr<Model> model);
+	void EditTexture(std::shared_ptr<Texture> texture);
 	
 };
 

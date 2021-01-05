@@ -36,11 +36,12 @@ private:
 	std::vector<soundType> soundTypes;
 	std::vector<std::string> soundsToUse;
 	int cameraType = 0;
-	bool thirdPerson = true;
+	bool firstPerson = false;
 	bool isGrounded = false;
 	bool soundPlaying = true;
 	bool ballAttached = false;
-	bool modifyControls = false;
+	bool modifyControls = true;
+	int freezeTimer;
 
 	//private functions
 	Application();

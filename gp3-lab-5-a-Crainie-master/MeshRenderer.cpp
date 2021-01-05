@@ -53,5 +53,10 @@ void MeshRenderer::EditMesh(std::shared_ptr<Model> model)
 	m_model = model;
 }
 
+void MeshRenderer::EditTexture(std::shared_ptr<Texture> texture)
+{
+	m_texture = texture;
+}
+
 
 
