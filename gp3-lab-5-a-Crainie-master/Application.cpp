@@ -931,7 +931,7 @@ void Application::Loop()
 			btVector3 zeroVector(0, 0, 0);
 			b->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			b->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
-			b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
+			//b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 				
 		}
 
