@@ -33,7 +33,7 @@
 Application *Application::m_application = nullptr;
 static cSoundMgr* theSoundMgr = cSoundMgr::getInstance();
 Entity* a = new Entity();
-Entity* b = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* player1 = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* thirdPersonCamera = new Entity(glm::vec3(0.f, 5.f, 70.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* c = new Entity(glm::vec3(0.f, 0.f, -20.f), glm::quat({ 0, 0, 0 }), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.f, 0.f, 5.f));
 Entity* d = new Entity(glm::vec3(0.f, -10.f, -100.f), glm::quat({ 0, 0, 0 }), glm::vec3(5.1f, 5.1f, 5.1f), glm::vec3(0.f, 0.f, 5.f));
@@ -372,22 +372,22 @@ void Application::GameInit()
 	
 
 	
-	m_entities.push_back(b);
-	b->AddComponent(
+	m_entities.push_back(player1);
+	player1->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/footballBoot3.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"))
 	);
-	MeshRenderer* n = b->GetComponent<MeshRenderer>();
+	MeshRenderer* n = player1->GetComponent<MeshRenderer>();
 	//b->GetTransform()->SetPosition(glm::vec3(10.f, 0.f, -30.f));
-	b->AddComponent<RigidBody>();
-	b->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(4.f, 1.f, 5.f)));
-	b->GetComponent<RigidBody>()->Get()->setFriction(1);
-	b->GetComponent<RigidBody>()->Get()->setSpinningFriction(1);
-	b->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0, 0, 0));
+	player1->AddComponent<RigidBody>();
+	player1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(4.f, 1.f, 5.f)));
+	player1->GetComponent<RigidBody>()->Get()->setFriction(1);
+	player1->GetComponent<RigidBody>()->Get()->setSpinningFriction(1);
+	player1->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0, 0, 0));
 	//b->GetComponent<RigidBody>()->Get()->setRollingFriction(1);
-	b->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	player1->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
 	m_entities.push_back(snowFlakePowerUp);
 	snowFlakePowerUp->AddComponent(
@@ -492,7 +492,7 @@ void Application::GameInit()
 	//b = new Entity();
 	//m_entities.push_back(thirdPersonCamera);
 	
-	b->AddComponent(cc);
+	player1->AddComponent(cc);
 	//cc->Start();
 	a->AddComponent(dd);
 	dd->Start();
@@ -519,11 +519,11 @@ void Application::Loop()
 	m_appState = AppState::RUNNING;
 	std::cout << playerX << std::endl;
 	auto prevTicks = std::chrono::high_resolution_clock::now();
-	b->GetComponent<RigidBody>()->UpdateParent();
-	b->GetComponent<RigidBody>()->UpdateRigidBody();
+	player1->GetComponent<RigidBody>()->UpdateParent();
+	player1->GetComponent<RigidBody>()->UpdateRigidBody();
 	c->GetComponent<RigidBody>()->UpdateParent();
 	c->GetComponent<RigidBody>()->UpdateRigidBody();
-	ballX = b->GetTransform()->GetPosition();
+	ballX = player1->GetTransform()->GetPosition();
 
 	while (m_appState != AppState::QUITTING)
 	{
@@ -595,12 +595,12 @@ void Application::Loop()
 		if (player1FreezeTimer <= 0 && player1Frozen == true)
 		{
 			player1Frozen = false;
-			b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
-			b->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"));
+			player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
+			player1->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"));
 		}
 		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0}));
-		thirdPersonCamera->GetTransform()->SetPosition(b->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
-		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		thirdPersonCamera->GetTransform()->SetPosition(player1->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "HERE" << std::endl;
 			//c->GetTransform()->SetPosition(glm::vec3(b->GetTransform()->GetPosition.x,);
@@ -609,19 +609,19 @@ void Application::Loop()
 
 		}
 
-		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, a->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, a->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = true;
 		}
 
-		if (!Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, a->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (!Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, a->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = false;
 		}
 
-		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
@@ -637,8 +637,8 @@ void Application::Loop()
 		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			//std::cout << "ground" << std::endl;
-			b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
-			b->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+			player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
+			player1->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
 			snowFlakePowerUp->GetTransform()->AddPosition(glm::vec3(-6000, 0, 0));
 			player1FreezeTimer = 200;
 			snowPowerUpTimer = 3000;
@@ -651,12 +651,12 @@ void Application::Loop()
 		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, d->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "player1 Goal" << std::endl;
-			b->GetTransform()->SetPosition(player1Start);
+			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
 			c->GetComponent<RigidBody>()->Get()->clearForces();
 			btVector3 zeroVector(0, 0, 0);
-			b->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
-			b->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
+			player1->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
+			player1->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
@@ -684,12 +684,12 @@ void Application::Loop()
 		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, e->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			std::cout << "player2 Goal" << std::endl;
-			b->GetTransform()->SetPosition(player1Start);
+			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
 			c->GetComponent<RigidBody>()->Get()->clearForces();
 			btVector3 zeroVector(0, 0, 0);
-			b->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
-			b->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
+			player1->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
+			player1->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			player2->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			c->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
@@ -726,9 +726,9 @@ void Application::Loop()
 		{
 			if (firstPerson == true)
 			{
-				b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
+				player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 			}
-			b->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
+			player1->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			c->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
 			switch (event.type)
@@ -744,7 +744,7 @@ void Application::Loop()
 				case SDLK_SPACE:					
 					if (isGrounded == true) 
 					{ 
-						b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 10.f, 0.f)); 
+						player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 10.f, 0.f)); 
 					}					
 					break;
 				case SDLK_TAB:
@@ -764,9 +764,9 @@ void Application::Loop()
 				case SDLK_c:
 					if (firstPerson == true)
 					{
-						b->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
-						if (player1Frozen == false) { b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj")); }
-						if (player1Frozen == true) { b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj")); }
+						player1->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
+						if (player1Frozen == false) { player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj")); }
+						if (player1Frozen == true) { player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj")); }
 						//a->AddComponent(cc);
 						dd->Start();
 						firstPerson = false;
@@ -778,7 +778,7 @@ void Application::Loop()
 					else
 					{
 						//b->AddComponent(cc);
-						b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
+						player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 						cc->Start();
 						firstPerson = true;
 						modifyControls = false;
@@ -801,7 +801,7 @@ void Application::Loop()
 						break;
 					}
 				case SDLK_UP:
-					b->GetComponent<RigidBody>()->UpdateRigidBody();
+					player1->GetComponent<RigidBody>()->UpdateRigidBody();
 					
 					break;
 				}
@@ -814,8 +814,8 @@ void Application::Loop()
 				if (SDL_GetRelativeMouseMode() == true && modifyControls == false)
 				{
 					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
-					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.yrel, b->GetTransform()->GetRight());
-					b->GetTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
+					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.yrel, player1->GetTransform()->GetRight());
+					player1->GetTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
 				}
 				break;
 			}
@@ -836,67 +836,67 @@ void Application::Loop()
 			if (modifyControls == false)
 			{
 				//b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(1.0f, 0.f, 0.f));
-				glm::vec3 vec = b->GetTransform()->GetRight();
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(vec));
+				glm::vec3 vec = player1->GetTransform()->GetRight();
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(vec));
 				
 				
 			}
 			if (modifyControls == true)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.0f, 0.f, 1.f));
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.0f, 0.f, 1.f));
 			}
-			b->GetComponent<RigidBody>()->UpdateRigidBody();
-			b->GetComponent<RigidBody>()->UpdateParent();
+			player1->GetComponent<RigidBody>()->UpdateRigidBody();
+			player1->GetComponent<RigidBody>()->UpdateParent();
 		}
 
 		if (currentKeyStates[SDL_SCANCODE_LEFT] && player1Frozen == false)
 		{
 			if (modifyControls == false)
 			{
-				glm::vec3 vec = b->GetTransform()->GetRight();
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(-vec));
+				glm::vec3 vec = player1->GetTransform()->GetRight();
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(-vec));
 
 			}
 			if (modifyControls == true)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.f));
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 0.f, -1.f));
 				
 
 			}
-			b->GetComponent<RigidBody>()->UpdateRigidBody();
-			b->GetComponent<RigidBody>()->UpdateParent();
+			player1->GetComponent<RigidBody>()->UpdateRigidBody();
+			player1->GetComponent<RigidBody>()->UpdateParent();
 		}
 
 		if (currentKeyStates[SDL_SCANCODE_UP] && player1Frozen == false)
 		{
 			if (modifyControls == false)
 			{
-				glm::vec3 vec = b->GetTransform()->GetForward();
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(vec));
+				glm::vec3 vec = player1->GetTransform()->GetForward();
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(vec));
 			}
 			if (modifyControls == true)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(1.f, 0.f, 0.f));
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(1.f, 0.f, 0.f));
 			}
 			//b->GetComponent<RigidBody>()->Get()->applyImpulse(btVector3(0.f, 0.f, -4.f), btVector3(0, 0, 0));
-			b->GetComponent<RigidBody>()->UpdateRigidBody();
-			b->GetComponent<RigidBody>()->UpdateParent();
+			player1->GetComponent<RigidBody>()->UpdateRigidBody();
+			player1->GetComponent<RigidBody>()->UpdateParent();
 		}
 
 		if (currentKeyStates[SDL_SCANCODE_DOWN] && player1Frozen == false)
 		{
 			if (modifyControls == false)
 			{
-				glm::vec3 vec = b->GetTransform()->GetForward();
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(-vec));
+				glm::vec3 vec = player1->GetTransform()->GetForward();
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(glmToBullet(-vec));
 			}
 			if (modifyControls == true)
 			{
-				b->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(-1.5f, 0.f, 0.f));
+				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(-1.5f, 0.f, 0.f));
 			}
 			//b->GetTransform()->AddPosition(glm::vec3(0.0f, 0.f, 1.f));		
-			b->GetComponent<RigidBody>()->UpdateRigidBody();
-			b->GetComponent<RigidBody>()->UpdateParent();
+			player1->GetComponent<RigidBody>()->UpdateRigidBody();
+			player1->GetComponent<RigidBody>()->UpdateParent();
 		}
 
 		if (currentKeyStates[SDL_SCANCODE_D] && player2Frozen == false )
@@ -963,11 +963,11 @@ void Application::Loop()
 
 		if (currentKeyStates[SDL_SCANCODE_RETURN])
 		{
-			b->GetComponent<RigidBody>()->Get()->clearForces();
-			b->GetTransform()->SetPosition(player1Start + glm::vec3(30, 0, 0));
+			player1->GetComponent<RigidBody>()->Get()->clearForces();
+			player1->GetTransform()->SetPosition(player1Start + glm::vec3(30, 0, 0));
 			btVector3 zeroVector(0, 0, 0);
-			b->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
-			b->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
+			player1->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
+			player1->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			//b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 				
 		}
@@ -994,6 +994,7 @@ void Application::Loop()
 
 
 		SDL_GL_SwapWindow(m_window);
+
 	}
 }
 
