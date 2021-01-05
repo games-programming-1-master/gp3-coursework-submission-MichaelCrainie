@@ -67,12 +67,12 @@ Application::Application()
 void Application::Init()
 {
 	
-	TTF_Init();
+	//TTF_Init();
 	SDL_Init(SDL_INIT_VIDEO);
-	if (TTF_Init() < 0)
-	{
-		printf("NOOOOOOOOO");
-	}
+	//if (TTF_Init() < 0)
+	//{
+		//printf("NOOOOOOOOO");
+	//}
 	
 	//performing initialization
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -92,8 +92,8 @@ void Application::Init()
 	m_window = SDL_CreateWindow("GP3-LAB-5", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, m_windowWidth, m_windowHeight,
 		SDL_WINDOW_OPENGL);
-	m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	TTF_Font *font = TTF_OpenFont("COMICATE.ttf", 20);
+	//m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	/*TTF_Font *font = TTF_OpenFont("COMICATE.ttf", 20);
 	SDL_Color color = { 144, 77, 255, 255 };
 	SDL_Surface *textSurface = TTF_RenderText_Solid(font, "Red Team 0 - 0 Blue Team", color);
 	SDL_Texture *text = SDL_CreateTextureFromSurface(m_renderTarget, textSurface);
@@ -103,7 +103,7 @@ void Application::Init()
 	SDL_FreeSurface(textSurface);
 	textSurface = nullptr;
 	SDL_RenderCopy(m_renderTarget, text, NULL, &textRect);
-	SDL_RenderPresent(m_renderTarget);
+	SDL_RenderPresent(m_renderTarget);*/
 
 	SDL_CaptureMouse(SDL_TRUE);
 
