@@ -41,7 +41,12 @@ private:
 	bool soundPlaying = true;
 	bool ballAttached = false;
 	bool modifyControls = true;
-	int freezeTimer;
+	int player1FreezeTimer;
+	int player2FreezeTimer;
+	bool player1Frozen = false;
+	bool player2Frozen = false;
+	int snowPowerUpTimer = 400;
+	int randomNumber;
 
 	//private functions
 	Application();

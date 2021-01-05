@@ -43,7 +43,7 @@ Entity* g = new Entity(glm::vec3(0.f, -10.f, -140.f), glm::quat({ 0, 0, 0 }), gl
 Entity* h = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 40.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* i = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
-Entity* snowFlakePowerUp = new Entity(glm::vec3(0.f, -8.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(20.f, 20.f, 20.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* snowFlakePowerUp = new Entity(glm::vec3(-400.f, -8.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(15.f, 15.f, 15.f), glm::vec3(0.f, 0.f, 5.f));
 
 
 
@@ -243,6 +243,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/footballBoot4.obj");
 	Resources::GetInstance()->AddModel("Models/emptyObject.obj");
 	Resources::GetInstance()->AddModel("Models/snowflakes.obj");
+	Resources::GetInstance()->AddModel("Models/icecube2.obj");
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Gold.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ice.jpg");
@@ -255,6 +256,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddTexture("Images/Textures/Sapphire.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ruby.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/football.jpg");
+	Resources::GetInstance()->AddTexture("Images/Textures/frozen.jpg");
 	Resources::GetInstance()->AddShader(std::make_shared<ShaderProgram>(ASSET_PATH + "Shaders/simple_VERT.glsl", 
 		ASSET_PATH + "Shaders/simple_FRAG.glsl"), 
 		"simple"
@@ -456,6 +458,12 @@ void Application::GameInit()
 		Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/icecube2.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+	
 	
 	
 	
@@ -506,6 +514,8 @@ void Application::GameInit()
 void Application::Loop()
 {
 	
+
+
 	m_appState = AppState::RUNNING;
 	std::cout << playerX << std::endl;
 	auto prevTicks = std::chrono::high_resolution_clock::now();
@@ -518,7 +528,82 @@ void Application::Loop()
 	while (m_appState != AppState::QUITTING)
 	{
 		
-		
+		if (snowPowerUpTimer > 0)
+		{
+			snowPowerUpTimer--;
+		}
+
+		if (snowPowerUpTimer <= 0)
+		{
+			printf("YEASSSSS");
+			randomNumber = rand() % 7 + 0;
+			if (randomNumber == 0)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, 30.f));
+			}
+
+			else if (randomNumber == 1)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, -30.f));
+			}
+
+			else if (randomNumber == 2)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, -60.f));
+			}
+
+			else if (randomNumber == 3)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(65.f, -8.f, -80.f));
+			}
+
+			else if (randomNumber == 4)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, 30.f));
+			}
+
+			else if (randomNumber == 5)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, -30.f));
+			}
+
+			else if (randomNumber == 6)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, -60.f));
+			}
+
+			else if (randomNumber == 7)
+			{
+				snowFlakePowerUp->GetTransform()->SetPosition(glm::vec3(-65.f, -8.f, -80.f));
+			}
+
+			snowPowerUpTimer = 3000;
+
+
+		}
+		if (player1FreezeTimer > 0)
+		{
+			player1FreezeTimer--;
+		}
+
+		if (player2FreezeTimer > 0)
+		{
+			player2FreezeTimer--;
+		}
+
+		if (player2FreezeTimer <= 0 && player2Frozen == true)
+		{
+			player2Frozen = false;
+			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot4.obj"));
+			player2->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Ruby.jpg"));
+		}
+
+		if (player1FreezeTimer <= 0 && player1Frozen == true)
+		{
+			player1Frozen = false;
+			b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
+			b->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"));
+		}
 		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0}));
 		thirdPersonCamera->GetTransform()->SetPosition(b->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
 		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, c->GetComponent<RigidBody>()->Get(), 1, 1) == true)
@@ -545,7 +630,23 @@ void Application::Loop()
 		if (Physics::GetInstance()->Collision3D(b->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
 		{
 			//std::cout << "ground" << std::endl;
-			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/portal.obj"));
+			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
+			player2->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+			snowFlakePowerUp->GetTransform()->AddPosition(glm::vec3(600, 0, 0));
+			player2FreezeTimer = 200;
+			snowPowerUpTimer = 3000;
+			player2Frozen = true;
+		}
+
+		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), 0, 0, snowFlakePowerUp->GetComponent<RigidBody>()->Get(), 1, 1) == true)
+		{
+			//std::cout << "ground" << std::endl;
+			b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
+			b->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+			snowFlakePowerUp->GetTransform()->AddPosition(glm::vec3(-6000, 0, 0));
+			player1FreezeTimer = 200;
+			snowPowerUpTimer = 3000;
+			player1Frozen = true;
 		}
 
 		if (Physics::GetInstance()->Collision3D(c->GetComponent<RigidBody>()->Get(), 0, 0, d->GetComponent<RigidBody>()->Get(), 1, 1) == true)
@@ -696,7 +797,7 @@ void Application::Loop()
 		//update and render all entities
 		Update(deltaTime);
 		Render();
-		if (currentKeyStates[SDL_SCANCODE_RIGHT])
+		if (currentKeyStates[SDL_SCANCODE_RIGHT] && player1Frozen == false)
 		{
 			
 			if (modifyControls == false)
@@ -715,7 +816,7 @@ void Application::Loop()
 			b->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_LEFT])
+		if (currentKeyStates[SDL_SCANCODE_LEFT] && player1Frozen == false)
 		{
 			if (modifyControls == false)
 			{
@@ -733,7 +834,7 @@ void Application::Loop()
 			b->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_UP])
+		if (currentKeyStates[SDL_SCANCODE_UP] && player1Frozen == false)
 		{
 			if (modifyControls == false)
 			{
@@ -749,7 +850,7 @@ void Application::Loop()
 			b->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_DOWN])
+		if (currentKeyStates[SDL_SCANCODE_DOWN] && player1Frozen == false)
 		{
 			if (modifyControls == false)
 			{
@@ -765,7 +866,7 @@ void Application::Loop()
 			b->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_D])
+		if (currentKeyStates[SDL_SCANCODE_D] && player2Frozen == false )
 		{
 
 			if (modifyControls == false)
@@ -780,7 +881,7 @@ void Application::Loop()
 			player2->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_A])
+		if (currentKeyStates[SDL_SCANCODE_A] && player2Frozen == false)
 		{
 			if (modifyControls == false)
 			{
@@ -796,7 +897,7 @@ void Application::Loop()
 			player2->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_W])
+		if (currentKeyStates[SDL_SCANCODE_W] && player2Frozen == false)
 		{
 			if (modifyControls == false)
 			{
@@ -812,7 +913,7 @@ void Application::Loop()
 			player2->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_S])
+		if (currentKeyStates[SDL_SCANCODE_S] && player2Frozen == false)
 		{
 			if (modifyControls == false)
 			{
