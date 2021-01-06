@@ -684,7 +684,7 @@ void Application::Loop()
 			RestartGame();
 		}
 
-		if (snowPowerUpTimer <= 0) //
+		if (snowPowerUpTimer <= 0)   //if snowPowerUpTimer is less than or equal to 0 generate a random number between 1 and 8 then move the power up to the correspnding position. Timer will then reset to 3000
 		{
 			
 			randomNumber = 1 + (rand() % 8);
@@ -726,32 +726,32 @@ void Application::Loop()
 				
 			}
 		}
-		if (player1FreezeTimer > 0)
+		if (player1FreezeTimer > 0) //decrement player1FreezeTimer if it is more than 0
 		{
 			player1FreezeTimer--;
 		}
 
-		if (player2FreezeTimer > 0)
+		if (player2FreezeTimer > 0) //decrement player2FreezeTimer if it is more than 0
 		{
 			player2FreezeTimer--;
 		}
 
-		if (player2FreezeTimer <= 0 && player2Frozen == true)
+		if (player2FreezeTimer <= 0 && player2Frozen == true) //if player2FreezeTimer less than or equal to 0 and player2Frozen is true set player2Frozen to false and edit the mesh and texture
 		{
 			player2Frozen = false;
 			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot4.obj"));
 			player2->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Ruby.jpg"));
 		}
 
-		if (player1FreezeTimer <= 0 && player1Frozen == true)
+		if (player1FreezeTimer <= 0 && player1Frozen == true) //if player2FreezeTimer less than or equal to 0 and player2Frozen is true set player2Frozen to false and edit the mesh and texture
 		{
 			player1Frozen = false;
 			player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj"));
 			player1->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"));
 		}
-		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0}));
-		thirdPersonCamera->GetTransform()->SetPosition(player1->GetTransform()->GetPosition() + glm::vec3(2, 7, 20));
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), ball->GetComponent<RigidBody>()->Get()) == true)
+		snowFlakePowerUp->GetTransform()->AddRotation(glm::quat({ 0, 0.1, 0})); //sets power up to constantly rotate
+		
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), ball->GetComponent<RigidBody>()->Get()) == true) //if player one collides with the ball print to console 
 		{
 			std::cout << "HERE" << std::endl;
 			//c->GetTransform()->SetPosition(glm::vec3(b->GetTransform()->GetPosition.x,);
@@ -760,31 +760,31 @@ void Application::Loop()
 
 		}
 
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true) //if player1 is colliding with ground plane set grounded to true 
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = true;
 		}
 
-		if (!Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
+		if (!Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true) //if player1 is not colliding with ground plane set grounded to false
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = false;
 		}
 
-		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
+		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true) //if player2 is colliding with ground plane set grounded to true 
 		{
 			//std::cout << "ground" << std::endl;
 			isGroundedPlayer2 = true;
 		}
 
-		if (!Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
+		if (!Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true) //if player2 is not colliding with ground plane set grounded to false
 		{
 			//std::cout << "ground" << std::endl;
 			isGroundedPlayer2 = false;
 		}
 
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), snowFlakePowerUp->GetComponent<RigidBody>()->Get()) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), snowFlakePowerUp->GetComponent<RigidBody>()->Get()) == true) //if player1 collides with the ice power up the other player will be frozen and 2 sounds will play, the power up will also move offscreen and the timer will reset
 		{
 			//std::cout << "ground" << std::endl;
 			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
@@ -797,7 +797,7 @@ void Application::Loop()
 			theSoundMgr->getSnd("freeze")->play(0);
 		}
 
-		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), snowFlakePowerUp->GetComponent<RigidBody>()->Get()) == true)
+		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), snowFlakePowerUp->GetComponent<RigidBody>()->Get()) == true) //if player2 collides with the ice power up the other player will be frozen and 2 sounds will play, the power up will also move offscreen and the timer will reset
 		{
 			//std::cout << "ground" << std::endl;
 			player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
@@ -811,7 +811,9 @@ void Application::Loop()
 			
 		}
 
-		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals1->GetComponent<RigidBody>()->Get()) == true)
+		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals1->GetComponent<RigidBody>()->Get()) == true) //if the ball collides with the red team's goal add a point to the blue team, reset the player and the ball, 
+			                                                                                                                               //remove all current forces from the entities, generate a random number between 1 and 3 and play the corresponding sound, 
+																																		 //if it is the 5th goal of the match play the blue team wins sound
 		{
 			blueGoals++;
 			std::cout << "Red Team " + std::to_string(redGoals) + " " +  std::to_string(blueGoals) + " Blue Team " << std::endl;
@@ -856,8 +858,9 @@ void Application::Loop()
 			}
 		}
 
-		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals2->GetComponent<RigidBody>()->Get()) == true)
-		{
+		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals2->GetComponent<RigidBody>()->Get()) == true) //if the ball collides with the red team's goal add a point to the blue team, reset the player and the ball, 
+		{																																	//remove all current forces from the entities, generate a random number between 1 and 3 and play the corresponding sound, 
+																																			//if it is the 5th goal of the match play the blue team wins sound
 			redGoals++;
 			std::cout << "Red Team " + std::to_string(redGoals) + " - " + std::to_string(blueGoals) + " Blue Team " << std::endl;
 			UpdateRedScore();
@@ -912,13 +915,13 @@ void Application::Loop()
 		//poll SDL events
 		while (SDL_PollEvent(&event))
 		{
-			if (firstPerson == true)
+			if (firstPerson == true) //if the first person camera is active change the mesh to the empty model
 			{
 				player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 			}
 			player1->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
 			player2->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.5));
-			ball->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f));
+			ball->GetComponent<RigidBody>()->Get()->applyDamping(btScalar(0.1f)); //damping applied to the entities which helps them slow down when no force is being applied
 			switch (event.type)
 			{
 			case SDL_QUIT:
@@ -935,7 +938,7 @@ void Application::Loop()
 						//player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 10.f, 0.f)); 
 					}					
 					break;
-				case SDLK_TAB:
+				case SDLK_TAB: //used to toggle the theme sound on and off
 					if (soundPlaying == true)
 					{
 						theSoundMgr->getSnd("theme")->StopMusic();
@@ -949,7 +952,7 @@ void Application::Loop()
 						soundPlaying = true;
 						break;
 					}
-				case SDLK_c:
+				case SDLK_c: //used to switch between cameras
 					if (firstPerson == true)
 					{
 						player1->GetTransform()->SetRotation(glm::vec3(0, 0, 0));
@@ -972,7 +975,7 @@ void Application::Loop()
 						modifyControls = false;
 						break;
 					}
-				case SDLK_i:
+				case SDLK_i: //isometric camera that partially works but was not finished completely
 					if(cameraType == 0)
 					{
 						m_mainCamera->SetProjOrtho(-500, 500, -500, 500, 0.f, 1000.f);
@@ -989,7 +992,7 @@ void Application::Loop()
 						break;
 					}
 				case SDLK_UP:
-					player1->GetComponent<RigidBody>()->UpdateRigidBody();
+					
 					
 					break;
 				}
@@ -999,11 +1002,11 @@ void Application::Loop()
 			case SDL_MOUSEMOTION:
 				INPUT->MoveMouse(glm::ivec2(event.motion.xrel, event.motion.yrel));
 				
-				if (SDL_GetRelativeMouseMode() == true && modifyControls == false)
+				if (SDL_GetRelativeMouseMode() == true && modifyControls == false) //player can rotate the camera in first person mode with the mouse
 				{
 					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
 					m_mainCamera->GetParentTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.yrel, player1->GetTransform()->GetRight());
-					player1->GetTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
+					//player1->GetTransform()->RotateEulerAxis((m_worldDeltaTime * 1)* event.motion.xrel, glm::vec3(0, 1, 0));
 				}
 				break;
 			}
@@ -1018,7 +1021,7 @@ void Application::Loop()
 		//update and render all entities
 		Update(deltaTime);
 		Render();
-		if (currentKeyStates[SDL_SCANCODE_RIGHT] && player1Frozen == false)
+		if (currentKeyStates[SDL_SCANCODE_RIGHT] && player1Frozen == false) //controls for first person mode for player1, movement is relative to the direction the camera is facing in this mode. Achieved by converting the transforms right vec3 to a btVec3 and using it as an impulse to apply to the rigid body
 		{
 			
 			if (modifyControls == false)
@@ -1029,7 +1032,7 @@ void Application::Loop()
 				
 				
 			}
-			if (modifyControls == true)
+			if (modifyControls == true) //controls for side on camera 
 			{
 				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.0f, 0.f, 1.f));
 			}
