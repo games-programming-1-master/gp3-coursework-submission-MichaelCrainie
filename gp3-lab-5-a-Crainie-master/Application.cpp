@@ -44,6 +44,7 @@ Entity* wall3 = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f,
 Entity* wall4 = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* snowFlakePowerUp = new Entity(glm::vec3(-400.f, -8.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(15.f, 15.f, 15.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* blueTeamName = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(15.f, 15.f, 15.f), glm::vec3(0.f, 0.f, 5.f));
 
 
 
@@ -256,6 +257,8 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/two.obj");
 	Resources::GetInstance()->AddModel("Models/twoNoHyph.obj");
 	Resources::GetInstance()->AddModel("Models/zeroNoHyph.obj");
+	Resources::GetInstance()->AddModel("Models/redTeamWins.obj");
+	Resources::GetInstance()->AddModel("Models/blueTeamWins.obj");
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Gold.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ice.jpg");
@@ -533,6 +536,16 @@ void Application::GameInit()
 
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/twoNoHyph.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/blueTeamWins.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/redTeamWins.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
 	
