@@ -47,7 +47,7 @@ void Physics::Quit()
 	delete m_collisionConfig;
 }
 
-bool Physics::Collision3D(btCollisionObject* object1, btCollisionObject* object2) //checks the if two objects are colliding by checking the distance between their x, y and z coordinates
+bool Physics::Collision3D(btCollisionObject* object1, btCollisionObject* object2) //checks if two objects are colliding by checking if their x, y or z coordinates are overlapping
 {
 	if ((object1->getBroadphaseHandle()->m_aabbMax.x() < object2->getBroadphaseHandle()->m_aabbMin.x()) || (object1->getBroadphaseHandle()->m_aabbMin.x() > object2->getBroadphaseHandle()->m_aabbMax.x()))
 	{
