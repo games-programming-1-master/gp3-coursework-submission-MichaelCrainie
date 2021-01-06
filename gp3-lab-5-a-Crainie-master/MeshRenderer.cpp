@@ -48,12 +48,12 @@ void MeshRenderer::OnRender()
 	}
 }
 
-void MeshRenderer::EditMesh(std::shared_ptr<Model> model)
+void MeshRenderer::EditMesh(std::shared_ptr<Model> model) //change the mesh when called to the mesh passed in as the argument
 {
 	m_model = model;
 }
 
-void MeshRenderer::EditTexture(std::shared_ptr<Texture> texture)
+void MeshRenderer::EditTexture(std::shared_ptr<Texture> texture) //change the texture applied to the mesh to the texture passed in as the argument
 {
 	m_texture = texture;
 }

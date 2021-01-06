@@ -14,7 +14,7 @@ public:
 	float yaw, pitch;
 
 	void Start();
-	void Start2();
+	//void Start2();
 
 };
 

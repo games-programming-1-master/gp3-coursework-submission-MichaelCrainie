@@ -21,12 +21,12 @@ void CameraComp::Start()
 	
 }
 
-void CameraComp::Start2()
+/*void CameraComp::Start2()
 {
-	differentCamera = new Camera(m_entity->GetTransform());
+	//differentCamera = new Camera(m_entity->GetTransform());
 	Application::GetInstance()->SetCamera(differentCamera);
 
-}
+}*/
 
 
 

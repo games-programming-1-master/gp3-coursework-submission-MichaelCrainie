@@ -69,10 +69,10 @@ void cSound::play(int loop)
 
 void cSound::StopMusic()
 {
-	Mix_PauseMusic();
+	Mix_PauseMusic(); //stops music
 }
 
 void cSound::PlayMusic()
 {
-	Mix_ResumeMusic();
+	Mix_ResumeMusic(); //starts music
 }

@@ -1021,7 +1021,7 @@ void Application::Loop()
 		//update and render all entities
 		Update(deltaTime);
 		Render();
-		if (currentKeyStates[SDL_SCANCODE_RIGHT] && player1Frozen == false) //controls for first person mode for player1, movement is relative to the direction the camera is facing in this mode. Achieved by converting the transforms right vec3 to a btVec3 and using it as an impulse to apply to the rigid body
+		if (currentKeyStates[SDL_SCANCODE_RIGHT] && player1Frozen == false) //controls for first person mode for player1, movement is relative to the direction the camera is facing in this mode. Achieved by converting the transforms right vec3 to a btVec3 and using it as a central impulse to apply to the rigid body
 		{
 			
 			if (modifyControls == false)
@@ -1032,14 +1032,18 @@ void Application::Loop()
 				
 				
 			}
-			if (modifyControls == true) //controls for side on camera 
+			if (modifyControls == true) //controls for side on camera for player1, movement is achieved by applying central impulse to the rigid body of the entity
 			{
 				player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.0f, 0.f, 1.f));
 			}
-			player1->GetComponent<RigidBody>()->UpdateRigidBody();
-			player1->GetComponent<RigidBody>()->UpdateParent();
+			player1->GetComponent<RigidBody>()->UpdateRigidBody(); //rigid body is updated 
+			player1->GetComponent<RigidBody>()->UpdateParent(); //parent is updated
 		}
-
+		//
+		//
+		// controls further down operate in the same manner as previously outlined above for player 1 and 2
+		//
+		//
 		if (currentKeyStates[SDL_SCANCODE_LEFT] && player1Frozen == false)
 		{
 			if (modifyControls == false)
@@ -1153,7 +1157,7 @@ void Application::Loop()
 			player2->GetComponent<RigidBody>()->UpdateParent();
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_RETURN])
+		if (currentKeyStates[SDL_SCANCODE_RETURN]) //resets player one position and removes forces applied to rigid body
 		{
 			player1->GetComponent<RigidBody>()->Get()->clearForces();
 			player1->GetTransform()->SetPosition(player1Start + glm::vec3(30, 0, 0));
@@ -1164,21 +1168,21 @@ void Application::Loop()
 				
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_SPACE] && isGroundedPlayer2 && !player2Frozen)
+		if (currentKeyStates[SDL_SCANCODE_SPACE] && isGroundedPlayer2 && !player2Frozen) //player2 jump
 		{
 			player2->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 5.f, 0.f));
 			//b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_KP_0] && isGrounded && !player1Frozen)
+		if (currentKeyStates[SDL_SCANCODE_KP_0] && isGrounded && !player1Frozen) //player1 jump
 		{
 			player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 5.f, 0.f));
 			//b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_R])
+		if (currentKeyStates[SDL_SCANCODE_R]) //reset player2 position
 		{
 			player2->GetComponent<RigidBody>()->Get()->clearForces();
 			player2->GetTransform()->SetPosition(player2Start + glm::vec3(30, 0, 0));
@@ -1187,7 +1191,7 @@ void Application::Loop()
 			player2->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_Z] && currentKeyStates[SDL_SCANCODE_BACKSPACE])
+		if (currentKeyStates[SDL_SCANCODE_Z] && currentKeyStates[SDL_SCANCODE_BACKSPACE]) //reset ball 
 		{
 			
 			ball->GetComponent<RigidBody>()->Get()->clearForces();
@@ -1197,7 +1201,7 @@ void Application::Loop()
 			ball->GetTransform()->SetPosition(ballStart);
 		}
 
-		if (currentKeyStates[SDL_SCANCODE_ESCAPE])
+		if (currentKeyStates[SDL_SCANCODE_ESCAPE]) //quit
 		{
 
 			Quit();
@@ -1220,7 +1224,7 @@ void Application::Quit()
 	SDL_Quit();
 }
 
-void Application::UpdateBlueScore()
+void Application::UpdateBlueScore() //updates the scoreboard via switch case based on blueGoals variable, resets ball and starts timer to give delay before restarting game
 {
 	switch (blueGoals)
 	{
@@ -1247,7 +1251,7 @@ void Application::UpdateBlueScore()
 	}
 }
 
-void Application::UpdateRedScore()
+void Application::UpdateRedScore() //updates the scoreboard via switch case based on blueGoals variable, resets ball and starts timer to give delay before restarting game
 {
 	switch (redGoals)
 	{
@@ -1274,7 +1278,7 @@ void Application::UpdateRedScore()
 	}
 }
 
-void Application::RestartGame()
+void Application::RestartGame() //resets the game to original state
 {
 	redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/one.obj"));
 	blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/zeroNoHyph.obj"));

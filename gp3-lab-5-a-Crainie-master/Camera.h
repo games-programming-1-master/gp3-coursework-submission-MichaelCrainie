@@ -33,7 +33,7 @@ private:
 	Camera();
 public:
 	Camera(Transform* parent, CameraType type = CameraType::PERSPECTIVE);
-	glm::vec3 positionModifer = glm::vec3(0, 0, 0);     //(5, 10, 30);
+	glm::vec3 positionModifer = glm::vec3(0, 0, 0);     
 	void Recalculate();
 	inline glm::mat4 Get() { return VP; }
 

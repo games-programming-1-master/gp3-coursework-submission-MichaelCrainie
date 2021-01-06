@@ -23,7 +23,7 @@ void Camera::Recalculate()
 	if (m_parentTransform != nullptr)
 	{
 		
-		m_viewMatrix = glm::lookAt(m_parentTransform->GetPosition() + positionModifer,
+		m_viewMatrix = glm::lookAt(m_parentTransform->GetPosition() + positionModifer, //vec3 added to modify view matrix, set to (0, 0 ,0) by default
 			((m_parentTransform->GetPosition() + glm::vec3(0, 0, 0)) + (m_parentTransform->GetForward()) + glm::vec3(0, 0, 0)),
 			m_parentTransform->GetUp());
 
@@ -58,17 +58,17 @@ void Camera::SetProjOrtho(float left, float right, float bottom, float top, floa
 	m_projMatrix = glm::ortho(left, right, bottom, top, nearPlane, farPlane);
 }
 
-void::Camera::ModifyPositionOrtho()
+void::Camera::ModifyPositionOrtho() //edits positionModifier 
 {
 	positionModifer = glm::vec3(50, 100, 40);
 }
 
-void::Camera::ModifyPositionPerp()
+void::Camera::ModifyPositionPerp() //edits positionModifier 
 {
 	positionModifer = glm::vec3(5, 10, 40);
 }
 
-void ::Camera::DifferentCameraView()
+void ::Camera::DifferentCameraView() //edits positionModifier 
 {
 	positionModifer = glm::vec3(-150, 120, 0);
 
