@@ -234,7 +234,7 @@ void Application::GameInit()
 		soundsToUse = { ASSET_AUDIO_PATH_Theme + "synth9.mp3", ASSET_AUDIO_PATH_SFX + "ClickOn.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal4.wav", ASSET_AUDIO_PATH_SFX + "blueTeamGoal5.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal2.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal3.wav", ASSET_AUDIO_PATH_SFX + "redTeamGoal4.wav", ASSET_AUDIO_PATH_SFX + "freezePower.wav", ASSET_AUDIO_PATH_SFX + "blueTeamFreeze.wav", ASSET_AUDIO_PATH_SFX + "redTeamFreeze.wav", ASSET_AUDIO_PATH_SFX + "redTeamWins.wav", ASSET_AUDIO_PATH_SFX + "blueTeamWins.wav", ASSET_AUDIO_PATH_SFX + "crowdCheer2.wav" };
 		for (unsigned int sounds = 0; sounds < soundList.size(); sounds++)
 		{
-			theSoundMgr -> add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
+			theSoundMgr -> add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]); //add the soundList, soundTypes and soundsToUse to sound manager enabling them to be called
 		}
 		// Play the theme on a constant loop
 		theSoundMgr->getSnd("theme")->play(-1);
@@ -289,20 +289,26 @@ void Application::GameInit()
 	);
 
 	
-	m_entities.push_back(groundPlane);
-	groundPlane->AddComponent(
+	m_entities.push_back(groundPlane); //Adds object to m_entities vector(array) 
+	groundPlane->AddComponent( 
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/cube.obj"),
 			Resources::GetInstance()->GetShader("simple"),
-			Resources::GetInstance()->GetTexture("Images/Textures/grass.jpg"))
+			Resources::GetInstance()->GetTexture("Images/Textures/grass.jpg")) //attached mesh rendering and sets the model, shader and texture to use
 	);
-	MeshRenderer* m = groundPlane->GetComponent<MeshRenderer>();
-	groundPlane->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	groundPlane->AddComponent<RigidBody>();
-	groundPlane->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 1.f, 150.f)));
-	groundPlane->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	groundPlane->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 150.f));
-	groundPlane->GetComponent<RigidBody>()->Get()->setFriction(1);
+	MeshRenderer* m = groundPlane->GetComponent<MeshRenderer>(); //creates mesh renderer variable and sets it to the mesh renderer attached to this entity 
+	groundPlane->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f)); //sets position of this entity 
+	groundPlane->AddComponent<RigidBody>(); //adds rigid body to entity 
+	groundPlane->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 1.f, 150.f))); //adds box shape collider to the rigid body and sets the size of it to the glm::vec3 passed in
+	groundPlane->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3()); //makes the rigid body static so it is not impacted by other rigid bodies 
+	groundPlane->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 150.f)); //sets the scale of the entity
+	groundPlane->GetComponent<RigidBody>()->Get()->setFriction(1); //sets the friction of entity's rigid body 
+
+	
+	//
+	//   All other entities below have practically the exact same things applied to them with slight modifications. Any new things applied will be noted upon reaching them
+	//	 
+	//
 
 	m_entities.push_back(goals1);
 	goals1->AddComponent(
@@ -315,8 +321,8 @@ void Application::GameInit()
 	goals1->AddComponent<RigidBody>();
 	goals1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(14.f, 5.f, 0.05f)));
 	goals1->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	goals1->GetComponent<RigidBody>()->Get()->setFriction(1);
-	goals1->GetComponent<RigidBody>()->Get()->setRestitution(1);
+	goals1->GetComponent<RigidBody>()->Get()->setFriction(1); 
+	goals1->GetComponent<RigidBody>()->Get()->setRestitution(1); //set restitution (bouncyness)
 
 	m_entities.push_back(wall1);
 	wall1->AddComponent(
@@ -399,8 +405,8 @@ void Application::GameInit()
 	player1->AddComponent<RigidBody>();
 	player1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(4.f, 1.f, 5.f)));
 	player1->GetComponent<RigidBody>()->Get()->setFriction(1);
-	player1->GetComponent<RigidBody>()->Get()->setSpinningFriction(1);
-	player1->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0, 0, 0));
+	player1->GetComponent<RigidBody>()->Get()->setSpinningFriction(1); //sets spinning friction
+	player1->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0, 0, 0)); //stops the player spinning 
 	player1->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
 	m_entities.push_back(snowFlakePowerUp);
@@ -441,12 +447,95 @@ void Application::GameInit()
 	);
 	MeshRenderer* o = ball->GetComponent<MeshRenderer>();
 	ball->AddComponent<RigidBody>();
-	ball->GetComponent<RigidBody>()->Init(new SphereShape(1));
+	ball->GetComponent<RigidBody>()->Init(new SphereShape(1)); //adds sphere shape collider to the rigid body of the entity with a radius of 1 which is a btScalar
 	ball->GetComponent<RigidBody>()->Get()->setFriction(0.1);
-	ball->GetComponent<RigidBody>()->Get()->setRollingFriction(0.1);
+	ball->GetComponent<RigidBody>()->Get()->setRollingFriction(0.1); //sets the rolling friction to a low number in order to keep the ball moving even with low force being applied to it
 	ball->GetComponent<RigidBody>()->Get()->setRestitution(1);
 	ball->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0.f, 0, 0.f));
 	
+	m_entities.push_back(redTeamName);
+	redTeamName->AddComponent(
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/redTeam.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/Red.jpg")));
+	MeshRenderer* zz = redTeamName->GetComponent<MeshRenderer>();
+	redTeamName->AddComponent<RigidBody>();
+	redTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0)); 
+	redTeamName->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(blueTeamName);
+	blueTeamName->AddComponent(
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/blueTeam.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/Blue.jpg")));
+	MeshRenderer* qq = redTeamName->GetComponent<MeshRenderer>();
+	blueTeamName->AddComponent<RigidBody>();
+	blueTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	blueTeamName->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(redTeamPoints);
+	redTeamPoints->AddComponent(
+		new MeshRenderer(
+			Resources::GetInstance()->GetModel("Models/one.obj"),
+			Resources::GetInstance()->GetShader("simple"),
+			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* pp = redTeamPoints->GetComponent<MeshRenderer>();
+	redTeamPoints->AddComponent<RigidBody>();
+	redTeamPoints->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	redTeamPoints->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(blueTeamPoints);
+	blueTeamPoints->AddComponent(
+		new MeshRenderer(
+			Resources::GetInstance()->GetModel("Models/zeroNoHyph.obj"),
+			Resources::GetInstance()->GetShader("simple"),
+			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* ll = blueTeamPoints->GetComponent<MeshRenderer>();
+	blueTeamPoints->AddComponent<RigidBody>();
+	blueTeamPoints->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	blueTeamPoints->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(winningTeam);
+	winningTeam->AddComponent(
+		new MeshRenderer(
+			Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
+			Resources::GetInstance()->GetShader("simple"),
+			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* mm = winningTeam->GetComponent<MeshRenderer>();
+	winningTeam->AddComponent<RigidBody>();
+	winningTeam->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	winningTeam->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	
+
+
+	
+	
+	
+	
+	//thirdPersonCamera->AddComponent<RigidBody>();
+
+	for (int i = 0; i < 10; i++) //for loop for crates that are outside the field of play, lower X value of the glm::vec3 in line 529 if you wish to see how the they interact with the players and the ball once they have fallen over
+	{
+		Entity* a = new Entity();
+		m_entities.push_back(a);
+		a->AddComponent(
+			new MeshRenderer(
+				Resources::GetInstance()->GetModel("Models/cube.obj"),
+				Resources::GetInstance()->GetShader("simple"),
+				Resources::GetInstance()->GetTexture("Images/Textures/Wood.jpg"))
+		);
+		a->GetTransform()->SetPosition(glm::vec3(100, 5.f * i, -60.f));
+		a->AddComponent<RigidBody>();
+		a->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(1.f, 1.f, 1.f)));
+		a->GetTransform()->SetScale(glm::vec3(1.f, 1.f, 1.f));
+
+		
+
+
+	}
+	//Lines 539 - 622: creates mesh renderers that hold obj's/textures that are not currently in use at the start of the game
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/portal.obj"),
 		Resources::GetInstance()->GetShader("simple"),
@@ -531,98 +620,12 @@ void Application::GameInit()
 		Resources::GetInstance()->GetModel("Models/redTeamWins.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
-
-	m_entities.push_back(redTeamName);
-	redTeamName->AddComponent(
-	new MeshRenderer(
-		Resources::GetInstance()->GetModel("Models/redTeam.obj"),
-		Resources::GetInstance()->GetShader("simple"),
-		Resources::GetInstance()->GetTexture("Images/Textures/Red.jpg")));
-	MeshRenderer* zz = redTeamName->GetComponent<MeshRenderer>();
-	redTeamName->AddComponent<RigidBody>();
-	redTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0));
-	redTeamName->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-
-	m_entities.push_back(blueTeamName);
-	blueTeamName->AddComponent(
-	new MeshRenderer(
-		Resources::GetInstance()->GetModel("Models/blueTeam.obj"),
-		Resources::GetInstance()->GetShader("simple"),
-		Resources::GetInstance()->GetTexture("Images/Textures/Blue.jpg")));
-	MeshRenderer* qq = redTeamName->GetComponent<MeshRenderer>();
-	blueTeamName->AddComponent<RigidBody>();
-	blueTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0));
-	blueTeamName->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-
-	m_entities.push_back(redTeamPoints);
-	redTeamPoints->AddComponent(
-		new MeshRenderer(
-			Resources::GetInstance()->GetModel("Models/one.obj"),
-			Resources::GetInstance()->GetShader("simple"),
-			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
-	MeshRenderer* pp = redTeamPoints->GetComponent<MeshRenderer>();
-	redTeamPoints->AddComponent<RigidBody>();
-	redTeamPoints->GetComponent<RigidBody>()->Init(new SphereShape(0));
-	redTeamPoints->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-
-	m_entities.push_back(blueTeamPoints);
-	blueTeamPoints->AddComponent(
-		new MeshRenderer(
-			Resources::GetInstance()->GetModel("Models/zeroNoHyph.obj"),
-			Resources::GetInstance()->GetShader("simple"),
-			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
-	MeshRenderer* ll = blueTeamPoints->GetComponent<MeshRenderer>();
-	blueTeamPoints->AddComponent<RigidBody>();
-	blueTeamPoints->GetComponent<RigidBody>()->Init(new SphereShape(0));
-	blueTeamPoints->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-
-	m_entities.push_back(winningTeam);
-	winningTeam->AddComponent(
-		new MeshRenderer(
-			Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
-			Resources::GetInstance()->GetShader("simple"),
-			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
-	MeshRenderer* mm = winningTeam->GetComponent<MeshRenderer>();
-	winningTeam->AddComponent<RigidBody>();
-	winningTeam->GetComponent<RigidBody>()->Init(new SphereShape(0));
-	winningTeam->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	
-
-
-	
-	
-	
-	
-	//thirdPersonCamera->AddComponent<RigidBody>();
-
-	for (int i = 0; i < 10; i++)
-	{
-		Entity* a = new Entity();
-		m_entities.push_back(a);
-		a->AddComponent(
-			new MeshRenderer(
-				Resources::GetInstance()->GetModel("Models/cube.obj"),
-				Resources::GetInstance()->GetShader("simple"),
-				Resources::GetInstance()->GetTexture("Images/Textures/Wood.jpg"))
-		);
-		a->GetTransform()->SetPosition(glm::vec3(100, 5.f * i, -60.f));
-		a->AddComponent<RigidBody>();
-		a->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(1.f, 1.f, 1.f)));
-		a->GetTransform()->SetScale(glm::vec3(1.f, 1.f, 1.f));
-
-		
-
-
-	}
-
-	//b = new Entity();
-	//m_entities.push_back(thirdPersonCamera);
-	
-	player1->AddComponent(firstPersonCamera);
+	player1->AddComponent(firstPersonCamera); //add the firstPersonCamera cameraComp to the entity of player1
 	//cc->Start();
-	groundPlane->AddComponent(sideOnCamera);
-	sideOnCamera->Start();
-	m_mainCamera->DifferentCameraView();
+	groundPlane->AddComponent(sideOnCamera); //add the sideOnCamera cameraComp to the entity of groundPlane
+	sideOnCamera->Start(); //sets the sideOnCamera to be active camera
+	m_mainCamera->DifferentCameraView(); //calls the DifferentCameraView function from camera.cpp and applies it to m_mainCamera (will be explained further in camera cpp)
 	
 
 	
@@ -632,16 +635,16 @@ void Application::GameInit()
 
 
 	
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_SetRelativeMouseMode(SDL_TRUE); //keeps mouse movement relative to the game window
 	Resources::GetInstance()->ReleaseUnusedResources();
-	std::cout << "CONTROLS: PLAYER1 ARROW KEYS TO MOVE" << std::endl;
-	std::cout << "CONTROLS: PLAYER1 NUMPAD 0 TO JUMP" << std::endl;
+	std::cout << "CONTROLS: PLAYER1 ARROW KEYS TO MOVE" << std::endl; //controls to debug console
+	std::cout << "CONTROLS: PLAYER1 NUMPAD 0 TO JUMP IF ON GROUND" << std::endl;
 	std::cout << "CONTROLS: PLAYER1 C KEY TO TOGGLE CAMERAS" << std::endl;
 	std::cout << "CONTROLS: PLAYER1 TAB KEY TO TOGGLE MUSIC" << std::endl;
 	std::cout << "CONTROLS: PLAYER1 MOUSE TO MOVE CAMERA IN FIRST PERSON MODE, MOVEMENT WILL BE RELATIVE TO DIRECTION" << std::endl;
 	std::cout << "CONTROLS: PLAYER1 ENTER KEY TO RESET POSITION" << std::endl;
 	std::cout << "CONTROLS: PLAYER2 WASD KEYS TO MOVE" << std::endl;
-	std::cout << "CONTROLS: PLAYER2 SPACE BAR TO JUMP" << std::endl;
+	std::cout << "CONTROLS: PLAYER2 SPACE BAR TO JUMP IF ON GROUND" << std::endl;
 	std::cout << "CONTROLS: PLAYER2 R KEY TO RESET POSITION" << std::endl;
 	std::cout << "CONTROLS: PLAYER1 BACKSPACE AND PLAYER2 Z KEY TO RESET BALL (SAME TIME)" << std::endl;
 	std::cout << "GAMEPLAY: PLAYER WILL FREEZE OTHER PLAYER UPON COLLIDING WITH ICE POWERUP" << std::endl;
@@ -657,8 +660,8 @@ void Application::Loop()
 	m_appState = AppState::RUNNING;
 	//std::cout << playerX << std::endl;
 	auto prevTicks = std::chrono::high_resolution_clock::now();
-	player1->GetComponent<RigidBody>()->UpdateParent();
-	player1->GetComponent<RigidBody>()->UpdateRigidBody();
+	//player1->GetComponent<RigidBody>()->UpdateParent();
+	//player1->GetComponent<RigidBody>()->UpdateRigidBody();
 	ball->GetComponent<RigidBody>()->UpdateParent();
 	ball->GetComponent<RigidBody>()->UpdateRigidBody();
 	//ballX = player1->GetTransform()->GetPosition();
@@ -666,24 +669,24 @@ void Application::Loop()
 	while (m_appState != AppState::QUITTING)
 	{
 		
-		if (snowPowerUpTimer > 0)
+		if (snowPowerUpTimer > 0) //if this integer is higher than 0 decrement it
 		{
 			snowPowerUpTimer--;
 		}
 
-		if (redGoals == 5 || blueGoals == 5)
+		if (redGoals == 5 || blueGoals == 5) //if either team reaches 5 goals decrement the restartGameDelayTimer
 		{
 			restartGameDelayTimer--;
 		}
 
-		if (restartGameDelayTimer <= 0)
+		if (restartGameDelayTimer <= 0) //if the restartGameDelayTimer is less than or equal to 0 call the RestartGame function
 		{
 			RestartGame();
 		}
 
-		if (snowPowerUpTimer <= 0)
+		if (snowPowerUpTimer <= 0) //
 		{
-			printf("YEASSSSS");
+			
 			randomNumber = 1 + (rand() % 8);
 			switch (randomNumber)
 			{
