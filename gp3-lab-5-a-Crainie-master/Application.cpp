@@ -686,6 +686,16 @@ void Application::Loop()
 			snowPowerUpTimer--;
 		}
 
+		if (redGoals == 5 || blueGoals == 5)
+		{
+			restartGameDelayTimer--;
+		}
+
+		if (restartGameDelayTimer <= 0)
+		{
+			RestartGame();
+		}
+
 		if (snowPowerUpTimer <= 0)
 		{
 			printf("YEASSSSS");
@@ -832,7 +842,9 @@ void Application::Loop()
 				break;
 			}
 			theSoundMgr->getSnd("crowd")->play(0);
-			ball->GetTransform()->SetPosition(ballStart);
+			if (blueGoals < 5 && redGoals < 5) {
+				ball->GetTransform()->SetPosition(ballStart);
+			}
 			
 		}
 
@@ -867,7 +879,9 @@ void Application::Loop()
 				break;
 			}
 			theSoundMgr->getSnd("crowd")->play(0);
-			ball->GetTransform()->SetPosition(ballStart);
+			if (blueGoals < 5 && redGoals < 5) {
+				ball->GetTransform()->SetPosition(ballStart);
+			}
 			//isGrounded = false;
 		}
 
@@ -1186,6 +1200,9 @@ void Application::UpdateBlueScore()
 		blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/fiveNoHyph.obj"));
 		winningTeam->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/blueTeamWins.obj"));
 		winningTeam->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Blue.jpg"));
+		//ball->GetComponent<RigidBody>()->Get()->setGravity(btVector3(0, 0, 0));
+		ball->GetTransform()->AddPosition(glm::vec3(0, 900, 0));
+		restartGameDelayTimer = 300;
 		break;
 	}
 }
@@ -1210,9 +1227,25 @@ void Application::UpdateRedScore()
 		redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/five.obj"));
 		winningTeam->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/redTeamWins.obj"));
 		winningTeam->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Red.jpg"));
-
+		//ball->GetComponent<RigidBody>()->Get()->setGravity(btVector3(0, 0, 0));
+		ball->GetTransform()->AddPosition(glm::vec3(0, 900, 0));
+		restartGameDelayTimer = 300;
 		break;
 	}
+}
+
+void Application::RestartGame()
+{
+	redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/one.obj"));
+	blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/zeroNoHyph.obj"));
+	restartGameDelayTimer = 300;
+	redGoals = 0;
+	blueGoals = 0;
+	winningTeam->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
+	player1->GetTransform()->SetPosition(glm::vec3(0.f, 5.f, 60.f));
+	player2->GetTransform()->SetPosition(glm::vec3(0.f, 5.f, -60.f));
+	ball->GetComponent<RigidBody>()->Get()->clearForces();
+	ball->GetTransform()->SetPosition(ballStart);
 }
 
 

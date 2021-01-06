@@ -43,6 +43,7 @@ private:
 	bool modifyControls = true;
 	int player1FreezeTimer;
 	int player2FreezeTimer;
+	int restartGameDelayTimer = 300;
 	bool player1Frozen = false;
 	bool player2Frozen = false;
 	int snowPowerUpTimer = 400;
@@ -64,6 +65,7 @@ private:
 	void AttachBallPlayer1();
 	void UpdateRedScore();
 	void UpdateBlueScore();
+	void RestartGame();
 
 	
 
