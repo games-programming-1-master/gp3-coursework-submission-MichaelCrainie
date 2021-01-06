@@ -280,6 +280,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddTexture("Images/Textures/Ruby.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/football.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/frozen.jpg");
+	Resources::GetInstance()->AddTexture("Images/Textures/Red.jpg");
 	Resources::GetInstance()->AddShader(std::make_shared<ShaderProgram>(ASSET_PATH + "Shaders/simple_VERT.glsl", 
 		ASSET_PATH + "Shaders/simple_FRAG.glsl"), 
 		"simple"
@@ -490,7 +491,7 @@ void Application::GameInit()
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/five.obj"),
 		Resources::GetInstance()->GetShader("simple"),
-		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+		Resources::GetInstance()->GetTexture("Images/Textures/Red.jpg"));
 
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/fiveNoHyph.obj"),
@@ -562,7 +563,7 @@ void Application::GameInit()
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/redTeam.obj"),
 		Resources::GetInstance()->GetShader("simple"),
-		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+		Resources::GetInstance()->GetTexture("Images/Textures/Red.jpg")));
 	MeshRenderer* zz = redTeamName->GetComponent<MeshRenderer>();
 	redTeamName->AddComponent<RigidBody>();
 	redTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0));
