@@ -303,7 +303,6 @@ void Application::GameInit()
 	groundPlane->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	groundPlane->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 150.f));
 	groundPlane->GetComponent<RigidBody>()->Get()->setFriction(1);
-	//a->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
 	m_entities.push_back(goals1);
 	goals1->AddComponent(
@@ -313,7 +312,6 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/Gold.jpg"))
 	);
 	MeshRenderer* p = goals1->GetComponent<MeshRenderer>();
-	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	goals1->AddComponent<RigidBody>();
 	goals1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(14.f, 5.f, 0.05f)));
 	goals1->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
@@ -328,7 +326,6 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
 	MeshRenderer* r = wall1->GetComponent<MeshRenderer>();
-	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall1->AddComponent<RigidBody>();
 	wall1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 3000.f, 1.f)));
 	wall1->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
@@ -343,7 +340,6 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
 	MeshRenderer* s = wall2->GetComponent<MeshRenderer>();
-	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall2->AddComponent<RigidBody>();
 	wall2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 3000.f, 1.f)));
 	wall2->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
@@ -358,7 +354,6 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
 	MeshRenderer* t = wall3->GetComponent<MeshRenderer>();
-	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall3->AddComponent<RigidBody>();
 	wall3->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 3000.f, 5.f)));
 	wall3->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
@@ -373,7 +368,6 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/wall.jpg"))
 	);
 	MeshRenderer* u = wall4->GetComponent<MeshRenderer>();
-	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall4->AddComponent<RigidBody>();
 	wall4->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 3000.f, 5.f)));
 	wall4->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
@@ -388,14 +382,11 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/Gold.jpg"))
 	);
 	MeshRenderer* q = goals2->GetComponent<MeshRenderer>();
-	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	goals2->AddComponent<RigidBody>();
 	goals2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(14.f, 5.f, -0.05f)));
 	goals2->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	goals2->GetComponent<RigidBody>()->Get()->setFriction(1);
 	goals2->GetComponent<RigidBody>()->Get()->setRestitution(1);
-	
-
 	
 	m_entities.push_back(player1);
 	player1->AddComponent(
@@ -405,13 +396,11 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/Sapphire.jpg"))
 	);
 	MeshRenderer* n = player1->GetComponent<MeshRenderer>();
-	//b->GetTransform()->SetPosition(glm::vec3(10.f, 0.f, -30.f));
 	player1->AddComponent<RigidBody>();
 	player1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(4.f, 1.f, 5.f)));
 	player1->GetComponent<RigidBody>()->Get()->setFriction(1);
 	player1->GetComponent<RigidBody>()->Get()->setSpinningFriction(1);
 	player1->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0, 0, 0));
-	//b->GetComponent<RigidBody>()->Get()->setRollingFriction(1);
 	player1->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
 	m_entities.push_back(snowFlakePowerUp);
@@ -427,11 +416,6 @@ void Application::GameInit()
 	snowFlakePowerUp->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(1.f, 1.f, 20.f)));
 	snowFlakePowerUp->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 
-		
-	
-	//b->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	//b->GetTransform()->SetScale(glm::vec3(10.f, 10.f, 10.f));
-
 	m_entities.push_back(player2);
 	player2->AddComponent(
 		new MeshRenderer(
@@ -440,16 +424,13 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/Ruby.jpg"))
 	);
 	MeshRenderer* v = player2->GetComponent<MeshRenderer>();
-	//b->GetTransform()->SetPosition(glm::vec3(10.f, 0.f, -30.f));
 	player2->AddComponent<RigidBody>();
 	player2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(4.f, 1.f, 5.f)));
 	player2->GetComponent<RigidBody>()->Get()->setFriction(1);
 	player2->GetComponent<RigidBody>()->Get()->setSpinningFriction(1);
 	player2->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0, 0, 0));
-	//b->GetComponent<RigidBody>()->Get()->setRollingFriction(1);
 	player2->GetComponent<RigidBody>()->Get()->setRestitution(1);
-	//b->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	//b->GetTransform()->SetScale(glm::vec3(10.f, 10.f, 10.f));
+	
 	
 	m_entities.push_back(ball);
 	ball->AddComponent(
@@ -459,21 +440,13 @@ void Application::GameInit()
 			Resources::GetInstance()->GetTexture("Images/Textures/football.jpg"))
 	);
 	MeshRenderer* o = ball->GetComponent<MeshRenderer>();
-	//c->GetTransform()->SetPosition(glm::vec3(20.f, 0.f, 0.f));
-	//c->GetTransform()->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	ball->AddComponent<RigidBody>();
-	//c->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(10.f, 1.f, 10.f)));
 	ball->GetComponent<RigidBody>()->Init(new SphereShape(1));
 	ball->GetComponent<RigidBody>()->Get()->setFriction(0.1);
 	ball->GetComponent<RigidBody>()->Get()->setRollingFriction(0.1);
 	ball->GetComponent<RigidBody>()->Get()->setRestitution(1);
 	ball->GetComponent<RigidBody>()->Get()->setAngularFactor(btVector3(0.f, 0, 0.f));
-	//c->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	//btCompoundShape* compound = new btCompoundShape();
-	//btTransform localTrans;
-	//localTrans.setIdentity();
-	//localTrans.setOrigin(btVector3(0, 10, 10));
-	//compound->addChildShape(localTrans, c->GetComponent<RigidBody>()->Get()->getCollisionShape());
+	
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/portal.obj"),
 		Resources::GetInstance()->GetShader("simple"),
