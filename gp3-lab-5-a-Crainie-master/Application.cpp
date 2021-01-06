@@ -1325,14 +1325,7 @@ Application::~Application()
 
 }
 
-void Application::AttachBallPlayer1()
-{
-	
-	
-		//ball->GetTransform()->SetPosition(glm::vec3(ballX.x, ballX.y + 5, ballX.z + 40));
-		//ballAttached = false;
-	
-}
+
 
 Application * Application::GetInstance()
 {

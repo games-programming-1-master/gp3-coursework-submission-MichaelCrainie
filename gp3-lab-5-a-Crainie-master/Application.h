@@ -22,12 +22,10 @@ private:
 	static Application* m_application;
 	SDL_Window *m_window = nullptr;
 	SDL_GLContext m_glContext = nullptr;
-	SDL_Renderer *m_renderTarget = nullptr;
 	int m_windowWidth = 1280;
 	int m_windowHeight = 720;
 	AppState m_appState = AppState::INITILISING;
 	float m_worldDeltaTime = 0.f;
-	float playerX = -15.f;
 	std::vector<Entity*> m_entities;
 	Camera* m_mainCamera = nullptr;
 	Camera* differentCamera = nullptr;
@@ -63,7 +61,6 @@ private:
 	void Quit();
 	void Update(float deltaTime);
 	void Render();
-	void AttachBallPlayer1();
 	void UpdateRedScore();
 	void UpdateBlueScore();
 	void RestartGame();
