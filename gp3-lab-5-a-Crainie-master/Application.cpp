@@ -44,7 +44,13 @@ Entity* wall3 = new Entity(glm::vec3(80.f, -10.f, -120.f), glm::quat({ 0, 20.4f,
 Entity* wall4 = new Entity(glm::vec3(-100.f, -10.f, -120.f), glm::quat({ 0, 20.4f, 0 }), glm::vec3(80.1f, 15.1f, 10.1f), glm::vec3(0.f, 0.f, 0.f));
 Entity* player2 = new Entity(glm::vec3(0.f, 5.f, -60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* snowFlakePowerUp = new Entity(glm::vec3(-400.f, -8.f, 30.f), glm::quat({ 0, 0, 0 }), glm::vec3(15.f, 15.f, 15.f), glm::vec3(0.f, 0.f, 5.f));
-Entity* blueTeamName = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(15.f, 15.f, 15.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* blueTeamName = new Entity(glm::vec3(75.f, 55.f, 20.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* redTeamPoints = new Entity(glm::vec3(75.f, 55.f, -20.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* redTeamName = new Entity(glm::vec3(75.f, 55.f, -80.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* blueTeamPoints = new Entity(glm::vec3(75.f, 55.f, -10.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* winningTeam = new Entity(glm::vec3(75.f, 35.f, -40.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+
+
 
 
 
@@ -259,6 +265,8 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/zeroNoHyph.obj");
 	Resources::GetInstance()->AddModel("Models/redTeamWins.obj");
 	Resources::GetInstance()->AddModel("Models/blueTeamWins.obj");
+	Resources::GetInstance()->AddModel("Models/blueTeam.obj");
+	Resources::GetInstance()->AddModel("Models/redTeam.obj");
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Gold.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ice.jpg");
@@ -548,6 +556,64 @@ void Application::GameInit()
 		Resources::GetInstance()->GetModel("Models/redTeamWins.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	m_entities.push_back(redTeamName);
+	redTeamName->AddComponent(
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/redTeam.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* zz = redTeamName->GetComponent<MeshRenderer>();
+	redTeamName->AddComponent<RigidBody>();
+	redTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	redTeamName->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(blueTeamName);
+	blueTeamName->AddComponent(
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/blueTeam.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* qq = redTeamName->GetComponent<MeshRenderer>();
+	blueTeamName->AddComponent<RigidBody>();
+	blueTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	blueTeamName->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(redTeamPoints);
+	redTeamPoints->AddComponent(
+		new MeshRenderer(
+			Resources::GetInstance()->GetModel("Models/one.obj"),
+			Resources::GetInstance()->GetShader("simple"),
+			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* pp = redTeamPoints->GetComponent<MeshRenderer>();
+	redTeamPoints->AddComponent<RigidBody>();
+	redTeamPoints->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	redTeamPoints->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(blueTeamPoints);
+	blueTeamPoints->AddComponent(
+		new MeshRenderer(
+			Resources::GetInstance()->GetModel("Models/zeroNoHyph.obj"),
+			Resources::GetInstance()->GetShader("simple"),
+			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* ll = blueTeamPoints->GetComponent<MeshRenderer>();
+	blueTeamPoints->AddComponent<RigidBody>();
+	blueTeamPoints->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	blueTeamPoints->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+
+	m_entities.push_back(winningTeam);
+	winningTeam->AddComponent(
+		new MeshRenderer(
+			Resources::GetInstance()->GetModel("Models/emptyObject.obj"),
+			Resources::GetInstance()->GetShader("simple"),
+			Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+	MeshRenderer* mm = winningTeam->GetComponent<MeshRenderer>();
+	winningTeam->AddComponent<RigidBody>();
+	winningTeam->GetComponent<RigidBody>()->Init(new SphereShape(0));
+	winningTeam->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	
+
+
 	
 	
 	
@@ -735,6 +801,8 @@ void Application::Loop()
 
 		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals1->GetComponent<RigidBody>()->Get()) == true)
 		{
+			blueGoals++;
+			UpdateBlueScore();
 			std::cout << "player1 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
@@ -768,6 +836,8 @@ void Application::Loop()
 
 		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals2->GetComponent<RigidBody>()->Get()) == true)
 		{
+			redGoals++;
+			UpdateRedScore();
 			std::cout << "player2 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
@@ -1093,7 +1163,49 @@ void Application::Quit()
 	SDL_Quit();
 }
 
+void Application::UpdateBlueScore()
+{
+	switch (blueGoals)
+	{
+	case 1:
+		blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/oneNoHyph.obj"));
+		break;
+	case 2:
+		blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/twoNoHyph.obj"));
+		break;
+	case 3:
+		blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/threeNoHyph.obj"));
+		break;
+	case 4:
+		blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/fourNoHyph.obj"));
+		break;
+	case 5:
+		blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/fiveNoHyph.obj"));
+		break;
+	}
+}
 
+void Application::UpdateRedScore()
+{
+	switch (redGoals)
+	{
+	case 1:
+		redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/one1.obj"));
+		break;
+	case 2:
+		redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/two.obj"));
+		break;
+	case 3:
+		redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/three.obj"));
+		break;
+	case 4:
+		redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/four.obj"));
+		break;
+	case 5:
+		redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/five.obj"));
+		break;
+	}
+}
 
 
 void Application::Update(float deltaTime)

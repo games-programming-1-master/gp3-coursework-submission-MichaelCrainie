@@ -49,6 +49,8 @@ private:
 	int randomNumber;
 	int redRandomNumber;
 	int blueRandomNumber;
+	int blueGoals;
+	int redGoals;
 
 	//private functions
 	Application();
@@ -60,6 +62,8 @@ private:
 	void Update(float deltaTime);
 	void Render();
 	void AttachBallPlayer1();
+	void UpdateRedScore();
+	void UpdateBlueScore();
 
 	
 
