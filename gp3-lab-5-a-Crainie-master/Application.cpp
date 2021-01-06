@@ -875,6 +875,7 @@ void Application::Loop()
 			}
 			else
 			{
+				theSoundMgr->getSnd("crowd")->play(0);
 				theSoundMgr->getSnd("blueTeamWins")->play(0);
 			}
 		}
@@ -882,7 +883,7 @@ void Application::Loop()
 		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals2->GetComponent<RigidBody>()->Get()) == true)
 		{
 			redGoals++;
-			std::cout << "Red Team " + std::to_string(redGoals) + " " + std::to_string(blueGoals) + " Blue Team " << std::endl;
+			std::cout << "Red Team " + std::to_string(redGoals) + " - " + std::to_string(blueGoals) + " Blue Team " << std::endl;
 			UpdateRedScore();
 			//std::cout << "player2 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
@@ -919,6 +920,7 @@ void Application::Loop()
 
 			else
 			{
+				theSoundMgr->getSnd("crowd")->play(0);
 				theSoundMgr->getSnd("redTeamWins")->play(0);
 			}
 			//isGrounded = false;
