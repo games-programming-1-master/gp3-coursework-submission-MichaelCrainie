@@ -281,6 +281,7 @@ void Application::GameInit()
 	Resources::GetInstance()->AddTexture("Images/Textures/football.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/frozen.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Red.jpg");
+	Resources::GetInstance()->AddTexture("Images/Textures/Blue.jpg");
 	Resources::GetInstance()->AddShader(std::make_shared<ShaderProgram>(ASSET_PATH + "Shaders/simple_VERT.glsl", 
 		ASSET_PATH + "Shaders/simple_FRAG.glsl"), 
 		"simple"
@@ -574,7 +575,7 @@ void Application::GameInit()
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/blueTeam.obj"),
 		Resources::GetInstance()->GetShader("simple"),
-		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg")));
+		Resources::GetInstance()->GetTexture("Images/Textures/Blue.jpg")));
 	MeshRenderer* qq = redTeamName->GetComponent<MeshRenderer>();
 	blueTeamName->AddComponent<RigidBody>();
 	blueTeamName->GetComponent<RigidBody>()->Init(new SphereShape(0));
@@ -1060,6 +1061,7 @@ void Application::Loop()
 
 			if (modifyControls == false)
 			{
+
 				player2->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(1.5f, 0.f, 0.f));
 			}
 			if (modifyControls == true)
