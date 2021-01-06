@@ -315,7 +315,7 @@ void Application::GameInit()
 	MeshRenderer* p = goals1->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	goals1->AddComponent<RigidBody>();
-	goals1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, 0.05f)));
+	goals1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(14.f, 5.f, 0.05f)));
 	goals1->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	goals1->GetComponent<RigidBody>()->Get()->setFriction(1);
 	goals1->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -330,7 +330,7 @@ void Application::GameInit()
 	MeshRenderer* r = wall1->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall1->AddComponent<RigidBody>();
-	wall1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 30.f, 1.f)));
+	wall1->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 3000.f, 1.f)));
 	wall1->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	wall1->GetComponent<RigidBody>()->Get()->setFriction(1);
 	wall1->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -345,7 +345,7 @@ void Application::GameInit()
 	MeshRenderer* s = wall2->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall2->AddComponent<RigidBody>();
-	wall2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 30.f, 1.f)));
+	wall2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 3000.f, 1.f)));
 	wall2->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	wall2->GetComponent<RigidBody>()->Get()->setFriction(1);
 	wall2->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -360,7 +360,7 @@ void Application::GameInit()
 	MeshRenderer* t = wall3->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall3->AddComponent<RigidBody>();
-	wall3->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 30.f, 5.f)));
+	wall3->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 3000.f, 5.f)));
 	wall3->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	wall3->GetComponent<RigidBody>()->Get()->setFriction(1);
 	wall3->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -375,7 +375,7 @@ void Application::GameInit()
 	MeshRenderer* u = wall4->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	wall4->AddComponent<RigidBody>();
-	wall4->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 30.f, 5.f)));
+	wall4->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(300.f, 3000.f, 5.f)));
 	wall4->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	wall4->GetComponent<RigidBody>()->Get()->setFriction(1);
 	wall4->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -390,7 +390,7 @@ void Application::GameInit()
 	MeshRenderer* q = goals2->GetComponent<MeshRenderer>();
 	//d->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
 	goals2->AddComponent<RigidBody>();
-	goals2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(13.f, 5.f, -0.05f)));
+	goals2->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(14.f, 5.f, -0.05f)));
 	goals2->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
 	goals2->GetComponent<RigidBody>()->Get()->setFriction(1);
 	goals2->GetComponent<RigidBody>()->Get()->setRestitution(1);
@@ -661,7 +661,19 @@ void Application::GameInit()
 	
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	Resources::GetInstance()->ReleaseUnusedResources();
-
+	std::cout << "CONTROLS: PLAYER1 ARROW KEYS TO MOVE" << std::endl;
+	std::cout << "CONTROLS: PLAYER1 NUMPAD 0 TO JUMP" << std::endl;
+	std::cout << "CONTROLS: PLAYER1 C KEY TO TOGGLE CAMERAS" << std::endl;
+	std::cout << "CONTROLS: PLAYER1 TAB KEY TO TOGGLE MUSIC" << std::endl;
+	std::cout << "CONTROLS: PLAYER1 MOUSE TO MOVE CAMERA IN FIRST PERSON MODE, MOVEMENT WILL BE RELATIVE TO DIRECTION" << std::endl;
+	std::cout << "CONTROLS: PLAYER1 ENTER KEY TO RESET POSITION" << std::endl;
+	std::cout << "CONTROLS: PLAYER2 WASD KEYS TO MOVE" << std::endl;
+	std::cout << "CONTROLS: PLAYER2 SPACE BAR TO JUMP" << std::endl;
+	std::cout << "CONTROLS: PLAYER2 R KEY TO RESET POSITION" << std::endl;
+	std::cout << "CONTROLS: PLAYER1 BACKSPACE AND PLAYER2 Z KEY TO RESET BALL (SAME TIME)" << std::endl;
+	std::cout << "GAMEPLAY: PLAYER WILL FREEZE OTHER PLAYER UPON COLLIDING WITH ICE POWERUP" << std::endl;
+	std::cout << "GAMEPLAY: PLAYERS CANNOT MOVE WHILE FROZEN" << std::endl;
+	std::cout << "WIN CONDITION: FIRST TO 5 GOALS!" << std::endl;
 }
 
 void Application::Loop()
@@ -784,14 +796,26 @@ void Application::Loop()
 			isGrounded = false;
 		}
 
+		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
+		{
+			//std::cout << "ground" << std::endl;
+			isGroundedPlayer2 = true;
+		}
+
+		if (!Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
+		{
+			//std::cout << "ground" << std::endl;
+			isGroundedPlayer2 = false;
+		}
+
 		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), snowFlakePowerUp->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			player2->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
 			player2->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
-			snowFlakePowerUp->GetTransform()->AddPosition(glm::vec3(600, 0, 0));
+			snowFlakePowerUp->GetTransform()->AddPosition(glm::vec3(600, 1000, 0));
 			player2FreezeTimer = 200;
-			snowPowerUpTimer = 3000;
+			snowPowerUpTimer = 2000;
 			player2Frozen = true;
 			theSoundMgr->getSnd("redFreeze")->play(0);
 			theSoundMgr->getSnd("freeze")->play(0);
@@ -802,9 +826,9 @@ void Application::Loop()
 			//std::cout << "ground" << std::endl;
 			player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj"));
 			player1->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
-			snowFlakePowerUp->GetTransform()->AddPosition(glm::vec3(-6000, 0, 0));
+			snowFlakePowerUp->GetTransform()->AddPosition(glm::vec3(-6000, 1000, 0));
 			player1FreezeTimer = 200;
-			snowPowerUpTimer = 3000;
+			snowPowerUpTimer = 2000;
 			player1Frozen = true;
 			theSoundMgr->getSnd("blueFreeze")->play(0);
 			theSoundMgr->getSnd("freeze")->play(0);
@@ -814,8 +838,9 @@ void Application::Loop()
 		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals1->GetComponent<RigidBody>()->Get()) == true)
 		{
 			blueGoals++;
+			std::cout << "Red Team " + std::to_string(redGoals) + " " +  std::to_string(blueGoals) + " Blue Team " << std::endl;
 			UpdateBlueScore();
-			std::cout << "player1 Goal" << std::endl;
+			//std::cout << "player1 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
 			ball->GetComponent<RigidBody>()->Get()->clearForces();
@@ -828,31 +853,38 @@ void Application::Loop()
 			ball->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			//theSoundMgr->getSnd("blueGoal")->play(0);
 			blueRandomNumber = 1 + (rand() % 3);
-			switch (blueRandomNumber)
-			{
-			case 1:
-				theSoundMgr->getSnd("blueGoal")->play(0);
-				break;
+			if (blueGoals < 5) {
+				switch (blueRandomNumber)
+				{
+				case 1:
+					theSoundMgr->getSnd("blueGoal")->play(0);
+					break;
 
-			case 2:
-				theSoundMgr->getSnd("blueGoal2")->play(0);
-				break;
-			case 3:
-				theSoundMgr->getSnd("blueGoal3")->play(0);
-				break;
+				case 2:
+					theSoundMgr->getSnd("blueGoal2")->play(0);
+					break;
+				case 3:
+					theSoundMgr->getSnd("blueGoal3")->play(0);
+					break;
+				}
+				theSoundMgr->getSnd("crowd")->play(0);
+				if (blueGoals < 5 && redGoals < 5) {
+					ball->GetTransform()->SetPosition(ballStart);
+				}
+
 			}
-			theSoundMgr->getSnd("crowd")->play(0);
-			if (blueGoals < 5 && redGoals < 5) {
-				ball->GetTransform()->SetPosition(ballStart);
+			else
+			{
+				theSoundMgr->getSnd("blueTeamWins")->play(0);
 			}
-			
 		}
 
 		if (Physics::GetInstance()->Collision3D(ball->GetComponent<RigidBody>()->Get(), goals2->GetComponent<RigidBody>()->Get()) == true)
 		{
 			redGoals++;
+			std::cout << "Red Team " + std::to_string(redGoals) + " " + std::to_string(blueGoals) + " Blue Team " << std::endl;
 			UpdateRedScore();
-			std::cout << "player2 Goal" << std::endl;
+			//std::cout << "player2 Goal" << std::endl;
 			player1->GetTransform()->SetPosition(player1Start);
 			player2->GetTransform()->SetPosition(player2Start);
 			ball->GetComponent<RigidBody>()->Get()->clearForces();
@@ -865,22 +897,29 @@ void Application::Loop()
 			ball->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			//theSoundMgr->getSnd("redGoal")->play(0);
 			redRandomNumber = 1 + (rand() % 3);
-			switch (redRandomNumber)
-			{
-			case 1:
-				theSoundMgr->getSnd("redGoal")->play(0);
-				break;
+			if (redGoals < 5) {
+				switch (redRandomNumber)
+				{
+				case 1:
+					theSoundMgr->getSnd("redGoal")->play(0);
+					break;
 
-			case 2:
-				theSoundMgr->getSnd("redGoal2")->play(0);
-				break;
-			case 3:
-				theSoundMgr->getSnd("redGoal3")->play(0);
-				break;
+				case 2:
+					theSoundMgr->getSnd("redGoal2")->play(0);
+					break;
+				case 3:
+					theSoundMgr->getSnd("redGoal3")->play(0);
+					break;
+				}
+				theSoundMgr->getSnd("crowd")->play(0);
+				if (blueGoals < 5 && redGoals < 5) {
+					ball->GetTransform()->SetPosition(ballStart);
+				}
 			}
-			theSoundMgr->getSnd("crowd")->play(0);
-			if (blueGoals < 5 && redGoals < 5) {
-				ball->GetTransform()->SetPosition(ballStart);
+
+			else
+			{
+				theSoundMgr->getSnd("redTeamWins")->play(0);
 			}
 			//isGrounded = false;
 		}
@@ -915,7 +954,7 @@ void Application::Loop()
 				case SDLK_SPACE:					
 					if (isGrounded == true) 
 					{ 
-						player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 10.f, 0.f)); 
+						//player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 10.f, 0.f)); 
 					}					
 					break;
 				case SDLK_TAB:
@@ -1144,6 +1183,20 @@ void Application::Loop()
 				
 		}
 
+		if (currentKeyStates[SDL_SCANCODE_SPACE] && isGroundedPlayer2 && !player2Frozen)
+		{
+			player2->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 5.f, 0.f));
+			//b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
+
+		}
+
+		if (currentKeyStates[SDL_SCANCODE_KP_0] && isGrounded && !player1Frozen)
+		{
+			player1->GetComponent<RigidBody>()->Get()->applyCentralImpulse(btVector3(0.f, 5.f, 0.f));
+			//b->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
+
+		}
+
 		if (currentKeyStates[SDL_SCANCODE_R])
 		{
 			player2->GetComponent<RigidBody>()->Get()->clearForces();
@@ -1161,6 +1214,12 @@ void Application::Loop()
 			ball->GetComponent<RigidBody>()->Get()->setLinearVelocity(zeroVector);
 			ball->GetComponent<RigidBody>()->Get()->setAngularVelocity(zeroVector);
 			ball->GetTransform()->SetPosition(ballStart);
+		}
+
+		if (currentKeyStates[SDL_SCANCODE_ESCAPE])
+		{
+
+			Quit();
 		}
 		
 
@@ -1243,7 +1302,7 @@ void Application::RestartGame()
 	blueGoals = 0;
 	winningTeam->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
 	player1->GetTransform()->SetPosition(glm::vec3(0.f, 5.f, 60.f));
-	player2->GetTransform()->SetPosition(glm::vec3(0.f, 5.f, -60.f));
+	player2->GetTransform()->SetPosition(glm::vec3(0.f, 5.f, -90.f));
 	ball->GetComponent<RigidBody>()->Get()->clearForces();
 	ball->GetTransform()->SetPosition(ballStart);
 }

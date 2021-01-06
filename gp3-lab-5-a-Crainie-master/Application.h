@@ -38,6 +38,7 @@ private:
 	int cameraType = 0;
 	bool firstPerson = false;
 	bool isGrounded = false;
+	bool isGroundedPlayer2 = false;
 	bool soundPlaying = true;
 	bool ballAttached = false;
 	bool modifyControls = true;
