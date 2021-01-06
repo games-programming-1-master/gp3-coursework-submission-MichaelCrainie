@@ -244,6 +244,18 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/emptyObject.obj");
 	Resources::GetInstance()->AddModel("Models/snowflakes.obj");
 	Resources::GetInstance()->AddModel("Models/icecube2.obj");
+	Resources::GetInstance()->AddModel("Models/five.obj");
+	Resources::GetInstance()->AddModel("Models/fiveNoHyph.obj");
+	Resources::GetInstance()->AddModel("Models/fourNoHyph.obj");
+	Resources::GetInstance()->AddModel("Models/four.obj");
+	Resources::GetInstance()->AddModel("Models/one.obj");
+	Resources::GetInstance()->AddModel("Models/one1.obj");
+	Resources::GetInstance()->AddModel("Models/oneNoHyph.obj");
+	Resources::GetInstance()->AddModel("Models/three.obj");
+	Resources::GetInstance()->AddModel("Models/threeNoHyph.obj");
+	Resources::GetInstance()->AddModel("Models/two.obj");
+	Resources::GetInstance()->AddModel("Models/twoNoHyph.obj");
+	Resources::GetInstance()->AddModel("Models/zeroNoHyph.obj");
 	Resources::GetInstance()->AddTexture("Images/Textures/Wood.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Gold.jpg");
 	Resources::GetInstance()->AddTexture("Images/Textures/Ice.jpg");
@@ -461,6 +473,66 @@ void Application::GameInit()
 
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/icecube2.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/five.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/fiveNoHyph.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/four.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/fourNoHyph.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/one.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/oneNoHyph.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/one1.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/zeroNoHyph.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/three.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/threeNoHyph.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/two.obj"),
+		Resources::GetInstance()->GetShader("simple"),
+		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
+
+	new MeshRenderer(
+		Resources::GetInstance()->GetModel("Models/twoNoHyph.obj"),
 		Resources::GetInstance()->GetShader("simple"),
 		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
 	
