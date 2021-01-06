@@ -1184,6 +1184,8 @@ void Application::UpdateBlueScore()
 		break;
 	case 5:
 		blueTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/fiveNoHyph.obj"));
+		winningTeam->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/blueTeamWins.obj"));
+		winningTeam->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Blue.jpg"));
 		break;
 	}
 }
@@ -1206,6 +1208,9 @@ void Application::UpdateRedScore()
 		break;
 	case 5:
 		redTeamPoints->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/five.obj"));
+		winningTeam->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/redTeamWins.obj"));
+		winningTeam->GetComponent<MeshRenderer>()->EditTexture(Resources::GetInstance()->GetTexture("Images/Textures/Red.jpg"));
+
 		break;
 	}
 }
