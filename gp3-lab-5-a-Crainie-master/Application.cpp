@@ -30,9 +30,9 @@
 
 
 //SDL_Surface* surface;
-Application *Application::m_application = nullptr;
-static cSoundMgr* theSoundMgr = cSoundMgr::getInstance();
-Entity* a = new Entity();
+Application *Application::m_application = nullptr; 
+static cSoundMgr* theSoundMgr = cSoundMgr::getInstance(); //creates an instance of the sound manager 
+Entity* groundPlane = new Entity();
 Entity* player1 = new Entity(glm::vec3(0.f, 5.f, 60.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* thirdPersonCamera = new Entity(glm::vec3(0.f, 5.f, 70.f), glm::quat({ 0, 0, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* ball = new Entity(glm::vec3(0.f, 0.f, -20.f), glm::quat({ 0, 0, 0 }), glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.f, 0.f, 5.f));
@@ -48,22 +48,21 @@ Entity* blueTeamName = new Entity(glm::vec3(75.f, 55.f, 20.f), glm::quat({ 1, 0,
 Entity* redTeamPoints = new Entity(glm::vec3(75.f, 55.f, -20.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* redTeamName = new Entity(glm::vec3(75.f, 55.f, -80.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* blueTeamPoints = new Entity(glm::vec3(75.f, 55.f, -10.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
-Entity* winningTeam = new Entity(glm::vec3(75.f, 35.f, -40.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
+Entity* winningTeam = new Entity(glm::vec3(75.f, 35.f, -40.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));     //Lines 35 - 51: Create entities(objects) to be used in the game also setting their positions, rotations, scales and XYZ trans
 
 
 
 
 
 
-glm::vec3 player1Start = glm::vec3(0.f, 5.f, 60.f);
-glm::vec3 player2Start = glm::vec3(0.f, 5.f, -80.f);
-glm::vec3 ballStart = glm::vec3(0, 0, -20.f);
-float cameraDistance = 10.f;
+glm::vec3 player1Start = glm::vec3(0.f, 5.f, 60.f); //starting location for the player
+glm::vec3 player2Start = glm::vec3(0.f, 5.f, -80.f); //starting location for player2 stored as a vec3
+glm::vec3 ballStart = glm::vec3(0, 0, -20.f);  //starting location for the ball stored as a vec3
 SDL_Event event;
-CameraComp* cc = new CameraComp();
-CameraComp* dd = new CameraComp();
-glm::vec3 ballX;
-const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+CameraComp* firstPersonCamera = new CameraComp(); //first camera that is attached to the player object later on. First person perspective
+CameraComp* sideOnCamera = new CameraComp(); //camera that is attached to the ground plane later on. Side on perspective to view both players 
+//glm::vec3 ballX; //Un used vec3 was used for testing dodgeball style game
+const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL); //creates const 8-bit unsigned int pointer and sets the keybaord state to null by default
 
 Application::Application()
 {
@@ -74,11 +73,11 @@ Application::Application()
 void Application::Init()
 {
 	
-	//TTF_Init();
+	//TTF_Init(); //was used to initialize  TTF 
 	SDL_Init(SDL_INIT_VIDEO);
 	//if (TTF_Init() < 0)
 	//{
-		//printf("NOOOOOOOOO");
+		//printf("NOOOOOOOOO"); //if TTF fails to initialize print this string
 	//}
 	
 	//performing initialization
@@ -96,9 +95,10 @@ void Application::Init()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
 	//creating window
-	m_window = SDL_CreateWindow("GP3-LAB-5", SDL_WINDOWPOS_CENTERED,
+	m_window = SDL_CreateWindow("Locket Reague", SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED, m_windowWidth, m_windowHeight,
 		SDL_WINDOW_OPENGL);
+
 	//m_renderTarget = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	/*TTF_Font *font = TTF_OpenFont("COMICATE.ttf", 20);
 	SDL_Color color = { 144, 77, 255, 255 };
@@ -110,9 +110,10 @@ void Application::Init()
 	SDL_FreeSurface(textSurface);
 	textSurface = nullptr;
 	SDL_RenderCopy(m_renderTarget, text, NULL, &textRect);
-	SDL_RenderPresent(m_renderTarget);*/
-
-	SDL_CaptureMouse(SDL_TRUE);
+	SDL_RenderPresent(m_renderTarget);*/                            //Lines 102 - 113: Creates an SDL renderer, sets the font to be used, color to be used then creates a surface and texture from the text that is to be displayed. 
+	                                                                                 //This texture is then to be applied to a rectangle which will be displayed to the screen via the renderer created     
+	                                                                                //This code is commented out as it only displayed the score for a split second and would disappear and also caused an issue creating a release version. Comment back in to see effect 
+	SDL_CaptureMouse(SDL_TRUE); //enables capture of mouse
 
 	OpenGlInit();
 	GameInit();
@@ -140,12 +141,12 @@ void Application::output(int x, int y, float r, float g, float b, const char* st
 	len = (int)strlen(string);
 	for (i = 0; i < len; i++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
-	}
-}*/
+	}  
+}*/                                                                                   //Lines 124 - 145: Both failed attempts to display text using GLUT. Functions take in arguments about where to display on screen then filter through each char of string to display all on the screen
 
 btVector3 glmToBullet(const glm::vec3& v)
 {
-	return btVector3(v.x, v.y, v.z);
+	return btVector3(v.x, v.y, v.z); //handy conversion that allows a glm::vec3 to be converted into a btVector3 and then used in many of the bullet libraries functions.
 }
 /*void drawText(const char* text, int length, int x, int y)
 {
@@ -183,7 +184,7 @@ void DrawScreen(SDL_Surface* screen, int h)
 
 	//
 
-}*/
+}*/ //Lines 151 - 187: Another failed attempt at rendering text to the screen
 
 void Application::OpenGlInit()
 {
@@ -243,7 +244,6 @@ void Application::GameInit()
 	Resources::GetInstance()->AddModel("Models/portal.obj");
 	Resources::GetInstance()->AddModel("Models/cube2.obj");
 	Resources::GetInstance()->AddModel("Models/football.obj");
-	//Resources::GetInstance()->AddModel("Models/hockeyGoal2.obj");
 	Resources::GetInstance()->AddModel("Models/wall.obj");
 	Resources::GetInstance()->AddModel("Models/goals.obj");
 	Resources::GetInstance()->AddModel("Models/footballBoot3.obj");
@@ -289,20 +289,20 @@ void Application::GameInit()
 	);
 
 	
-	m_entities.push_back(a);
-	a->AddComponent(
+	m_entities.push_back(groundPlane);
+	groundPlane->AddComponent(
 		new MeshRenderer(
 			Resources::GetInstance()->GetModel("Models/cube.obj"),
 			Resources::GetInstance()->GetShader("simple"),
 			Resources::GetInstance()->GetTexture("Images/Textures/grass.jpg"))
 	);
-	MeshRenderer* m = a->GetComponent<MeshRenderer>();
-	a->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
-	a->AddComponent<RigidBody>();
-	a->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 1.f, 150.f)));
-	a->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
-	a->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 150.f));
-	a->GetComponent<RigidBody>()->Get()->setFriction(1);
+	MeshRenderer* m = groundPlane->GetComponent<MeshRenderer>();
+	groundPlane->GetTransform()->SetPosition(glm::vec3(0, -10.f, -20.f));
+	groundPlane->AddComponent<RigidBody>();
+	groundPlane->GetComponent<RigidBody>()->Init(new BoxShape(glm::vec3(100.f, 1.f, 150.f)));
+	groundPlane->GetComponent<RigidBody>()->Get()->setMassProps(0, btVector3());
+	groundPlane->GetTransform()->SetScale(glm::vec3(100.f, 1.f, 150.f));
+	groundPlane->GetComponent<RigidBody>()->Get()->setFriction(1);
 	//a->GetComponent<RigidBody>()->Get()->setRestitution(1);
 
 	m_entities.push_back(goals1);
@@ -645,10 +645,10 @@ void Application::GameInit()
 	//b = new Entity();
 	//m_entities.push_back(thirdPersonCamera);
 	
-	player1->AddComponent(cc);
+	player1->AddComponent(firstPersonCamera);
 	//cc->Start();
-	a->AddComponent(dd);
-	dd->Start();
+	groundPlane->AddComponent(sideOnCamera);
+	sideOnCamera->Start();
 	m_mainCamera->DifferentCameraView();
 	
 
@@ -688,7 +688,7 @@ void Application::Loop()
 	player1->GetComponent<RigidBody>()->UpdateRigidBody();
 	ball->GetComponent<RigidBody>()->UpdateParent();
 	ball->GetComponent<RigidBody>()->UpdateRigidBody();
-	ballX = player1->GetTransform()->GetPosition();
+	//ballX = player1->GetTransform()->GetPosition();
 
 	while (m_appState != AppState::QUITTING)
 	{
@@ -784,25 +784,25 @@ void Application::Loop()
 
 		}
 
-		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
+		if (Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = true;
 		}
 
-		if (!Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
+		if (!Physics::GetInstance()->Collision3D(player1->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGrounded = false;
 		}
 
-		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
+		if (Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGroundedPlayer2 = true;
 		}
 
-		if (!Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), a->GetComponent<RigidBody>()->Get()) == true)
+		if (!Physics::GetInstance()->Collision3D(player2->GetComponent<RigidBody>()->Get(), groundPlane->GetComponent<RigidBody>()->Get()) == true)
 		{
 			//std::cout << "ground" << std::endl;
 			isGroundedPlayer2 = false;
@@ -980,7 +980,7 @@ void Application::Loop()
 						if (player1Frozen == false) { player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/footballBoot3.obj")); }
 						if (player1Frozen == true) { player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/icecube2.obj")); }
 						//a->AddComponent(cc);
-						dd->Start();
+						sideOnCamera->Start();
 						firstPerson = false;
 						m_mainCamera->DifferentCameraView();
 						modifyControls = true;
@@ -991,7 +991,7 @@ void Application::Loop()
 					{
 						//b->AddComponent(cc);
 						player1->GetComponent<MeshRenderer>()->EditMesh(Resources::GetInstance()->GetModel("Models/emptyObject.obj"));
-						cc->Start();
+						firstPersonCamera->Start();
 						firstPerson = true;
 						modifyControls = false;
 						break;
@@ -1346,8 +1346,8 @@ void Application::AttachBallPlayer1()
 {
 	
 	
-		ball->GetTransform()->SetPosition(glm::vec3(ballX.x, ballX.y + 5, ballX.z + 40));
-		ballAttached = false;
+		//ball->GetTransform()->SetPosition(glm::vec3(ballX.x, ballX.y + 5, ballX.z + 40));
+		//ballAttached = false;
 	
 }
 

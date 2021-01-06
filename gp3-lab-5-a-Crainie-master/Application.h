@@ -75,10 +75,10 @@ public:
 	~Application();
 	static Application* GetInstance();
 	void Run();
-	void output(int x, int y, float r, float g, float b, const char* string);
+	//void output(int x, int y, float r, float g, float b, const char* string); //declartion for output function that takes in 2 ints, 3 floats and a const char pointer as arguments. Was used to attempt ui text but issues with Glue prevented it working as intended
 	inline int GetWindowHeight() { return m_windowHeight; }
 	inline int GetWindowWidth() { return m_windowWidth; }
-	void drawBitmapText(const char* string, float x, float y, float z);
+	//void drawBitmapText(const char* string, float x, float y, float z);  //declaration for drawBitMapText function that takes in a const char pointer and 3 floats as arguments. Was used to attempt ui text but issues with Glue prevented it working as intended
 	inline Camera* GetCamera() { return m_mainCamera; }
 	
 	//inline CameraType* GetCameraType() { return cameraView; }
