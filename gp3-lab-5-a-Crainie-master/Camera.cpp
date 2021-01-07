@@ -19,7 +19,7 @@ Camera::Camera(Transform* parent, CameraType type)
 
 void Camera::Recalculate()
 {
-	extern float cameraDistance;
+	
 	if (m_parentTransform != nullptr)
 	{
 		
@@ -33,6 +33,12 @@ void Camera::Recalculate()
 		VP = m_projMatrix * m_viewMatrix;
 		
 	}
+}
+
+void ::Camera::DifferentCameraView() //edits positionModifier 
+{
+	positionModifer = glm::vec3(-150, 120, 0);
+
 }
 
 void Camera::SetProjPersp(float fov, float ratio, float nearPlane, float farPlane)
@@ -68,11 +74,7 @@ void::Camera::ModifyPositionPerp() //edits positionModifier
 	positionModifer = glm::vec3(5, 10, 40);
 }
 
-void ::Camera::DifferentCameraView() //edits positionModifier 
-{
-	positionModifer = glm::vec3(-150, 120, 0);
 
-}
 
 void::Camera::tester()
 {

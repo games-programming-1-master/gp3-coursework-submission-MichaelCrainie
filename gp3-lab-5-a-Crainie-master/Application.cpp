@@ -104,7 +104,7 @@ void Application::Init()
 	SDL_FreeSurface(textSurface);
 	textSurface = nullptr;
 	SDL_RenderCopy(m_renderTarget, text, NULL, &textRect);
-	SDL_RenderPresent(m_renderTarget);*/                            //Lines 102 - 113: Creates an SDL renderer, sets the font to be used, color to be used then creates a surface and texture from the text that is to be displayed. 
+	SDL_RenderPresent(m_renderTarget);*/                            //Lines 96 - 107: Creates an SDL renderer, sets the font to be used, color to be used then creates a surface and texture from the text that is to be displayed. 
 	                                                                                 //This texture is then to be applied to a rectangle which will be displayed to the screen via the renderer created     
 	                                                                                //This code is commented out as it only displayed the score for a split second and would disappear and also caused an issue creating a release version. Comment back in to see effect 
 	SDL_CaptureMouse(SDL_TRUE); //enables capture of mouse
@@ -136,7 +136,7 @@ void Application::output(int x, int y, float r, float g, float b, const char* st
 	for (i = 0; i < len; i++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
 	}  
-}*/                                                                                   //Lines 124 - 145: Both failed attempts to display text using GLUT. Functions take in arguments about where to display on screen then filter through each char of string to display all on the screen
+}*/                                                                                   //Lines 118 - 139: Both failed attempts to display text using GLUT. Functions take in arguments about where to display on screen then filter through each char of string to display all on the screen
 
 btVector3 glmToBullet(const glm::vec3& v)
 {
@@ -529,7 +529,7 @@ void Application::GameInit()
 
 
 	}
-	//Lines 539 - 622: creates mesh renderers that hold obj's/textures that are not currently in use at the start of the game
+	//Lines 532 - 616: creates mesh renderers that hold obj's/textures that are not currently in use at the start of the game
 	new MeshRenderer(
 		Resources::GetInstance()->GetModel("Models/portal.obj"),
 		Resources::GetInstance()->GetShader("simple"),
@@ -616,18 +616,9 @@ void Application::GameInit()
 		Resources::GetInstance()->GetTexture("Images/Textures/frozen.jpg"));
 	
 	player1->AddComponent(firstPersonCamera); //add the firstPersonCamera cameraComp to the entity of player1
-	//cc->Start();
 	groundPlane->AddComponent(sideOnCamera); //add the sideOnCamera cameraComp to the entity of groundPlane
 	sideOnCamera->Start(); //sets the sideOnCamera to be active camera
 	m_mainCamera->DifferentCameraView(); //calls the DifferentCameraView function from camera.cpp and applies it to m_mainCamera (will be explained further in camera cpp)
-	
-
-	
-
-	
-
-
-
 	
 	SDL_SetRelativeMouseMode(SDL_TRUE); //keeps mouse movement relative to the game window
 	Resources::GetInstance()->ReleaseUnusedResources();
