@@ -29,7 +29,7 @@
 
 
 
-//SDL_Surface* surface;
+
 Application *Application::m_application = nullptr; 
 static cSoundMgr* theSoundMgr = cSoundMgr::getInstance(); //creates an instance of the sound manager 
 Entity* groundPlane = new Entity();
@@ -49,12 +49,6 @@ Entity* redTeamPoints = new Entity(glm::vec3(75.f, 55.f, -20.f), glm::quat({ 1, 
 Entity* redTeamName = new Entity(glm::vec3(75.f, 55.f, -80.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* blueTeamPoints = new Entity(glm::vec3(75.f, 55.f, -10.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));
 Entity* winningTeam = new Entity(glm::vec3(75.f, 35.f, -40.f), glm::quat({ 1, 0, -1, 0 }), glm::vec3(10.f, 10.f, 10.f), glm::vec3(0.f, 0.f, 5.f));     //Lines 35 - 51: Create entities(objects) to be used in the game also setting their positions, rotations, scales and XYZ trans
-
-
-
-
-
-
 glm::vec3 player1Start = glm::vec3(0.f, 5.f, 60.f); //starting location for the player
 glm::vec3 player2Start = glm::vec3(0.f, 5.f, -80.f); //starting location for player2 stored as a vec3
 glm::vec3 ballStart = glm::vec3(0, 0, -20.f);  //starting location for the ball stored as a vec3
